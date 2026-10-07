@@ -3,3 +3,14 @@ export interface API_Response{
     result:boolean;
     data:any
 }
+
+export interface IUserModel{
+    userId: number,
+    emailId: string,
+    password: string,
+    createdDate: string,
+    projectName: string,
+    fullName: string,
+    mobileNo: string,
+    extraId: any
+}

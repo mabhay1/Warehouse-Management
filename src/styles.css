@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --color-primary: #B4602D;
+  --color-sidebar: #5D4037;
+  --color-accent: #86198F;
+  --color-background: #FAF8F6;
+  --color-border: #E7E0DA;
+  --color-text: #342923;
+  --color-muted: #81766F;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-text);
+  font-family: Inter, "Segoe UI", sans-serif;
+}
+
+::selection {
+  background: rgb(180 96 45 / 18%);
+}

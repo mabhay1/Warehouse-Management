@@ -1,0 +1,87 @@
+<div class="admin-shell">
+    <aside class="admin-sidebar" aria-label="Main navigation">
+        <div class="sidebar-brand">
+            <a class="brand-lockup" href="#" aria-label="Storewise dashboard">
+                <span class="brand-icon"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></span>
+                <span class="brand-name">Storewise</span>
+            </a>
+            <span class="brand-caption">WAREHOUSE MANAGEMENT</span>
+        </div>
+
+        <nav class="sidebar-navigation">
+            <span class="nav-section-label">WORKSPACE</span>
+            <a class="sidebar-link active" href="#" aria-current="page">
+                <i class="fa-solid fa-house" aria-hidden="true"></i><span>Overview</span>
+            </a>
+            <a class="sidebar-link" href="#">
+                <i class="fa-solid fa-warehouse" aria-hidden="true"></i><span>Spaces</span>
+                <span class="nav-count">12</span>
+            </a>
+            <a class="sidebar-link" href="#">
+                <i class="fa-regular fa-calendar-check" aria-hidden="true"></i><span>Bookings</span>
+                <span class="nav-badge">4</span>
+            </a>
+            <a class="sidebar-link" href="#">
+                <i class="fa-solid fa-users" aria-hidden="true"></i><span>Clients</span>
+            </a>
+            <a class="sidebar-link" href="#">
+                <i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i><span>Inventory</span>
+            </a>
+
+            <span class="nav-section-label nav-section-spaced">MANAGEMENT</span>
+            <a class="sidebar-link" href="#">
+                <i class="fa-solid fa-file-invoice-dollar" aria-hidden="true"></i><span>Billing &amp; payments</span>
+            </a>
+            <a class="sidebar-link" href="#">
+                <i class="fa-solid fa-user-gear" aria-hidden="true"></i><span>Employees</span>
+            </a>
+            <a class="sidebar-link" href="#">
+                <i class="fa-solid fa-chart-pie" aria-hidden="true"></i><span>Reports</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a class="sidebar-link settings-link" href="#">
+                <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span>
+            </a>
+            <div class="sidebar-account">
+                <div class="account-avatar" aria-hidden="true">AS</div>
+                <div class="account-details">
+                    <strong>{{loggedUserData?.emailId}}</strong>
+                    <span>Administrator</span>
+                </div>
+                <button class="account-logout" (click)="onLogOff()" type="button" aria-label="Log off">
+                    <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="admin-topbar">
+            <div class="topbar-start">
+                <button class="sidebar-toggle" type="button" aria-label="Toggle sidebar">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
+                <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+                    <span>Workspace</span>
+                    <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                    <strong>Overview</strong>
+                </nav>
+            </div>
+            <div class="topbar-actions">
+                <span class="topbar-date"><i class="fa-regular fa-calendar" aria-hidden="true"></i> Wednesday, October
+                    7</span>
+                <button class="topbar-icon-button notification-button" type="button" aria-label="Notifications">
+                    <i class="fa-regular fa-bell" aria-hidden="true"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <div class="topbar-avatar" aria-label="Anmol Sharma">AS</div>
+            </div>
+        </header>
+
+        <div class="dashboard-content container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+    </main>
+</div>
