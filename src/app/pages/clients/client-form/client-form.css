@@ -1,0 +1,270 @@
+.client-form-page {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.client-form-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.client-form-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 8px;
+  color: var(--color-muted);
+  font-size: 11px;
+}
+
+.client-form-breadcrumb>i {
+  color: var(--color-primary);
+}
+
+.client-form-breadcrumb>span {
+  color: #c2b7af;
+}
+
+.client-form-breadcrumb a {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.client-form-breadcrumb a:hover {
+  color: var(--color-primary);
+}
+
+.client-form-breadcrumb strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.client-form-heading h1 {
+  margin: 0 0 5px;
+  color: var(--color-text);
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: -.7px;
+}
+
+.client-form-heading p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 11px;
+}
+
+.form-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--color-primary);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  white-space: nowrap;
+}
+
+.client-form-card {
+  padding: 21px 23px 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(52 41 35 / 3%);
+}
+
+.form-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin-bottom: 19px;
+}
+
+.form-card-icon {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 9px;
+  background: #f7eee8;
+  color: var(--color-primary);
+  font-size: 15px;
+}
+
+.form-card-heading h2 {
+  margin: 0 0 4px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.form-card-heading p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 10px;
+}
+
+.client-fields {
+  padding-bottom: 19px;
+}
+
+.client-fields .form-label {
+  margin-bottom: 6px;
+  font-size: 10px;
+}
+
+.required-mark {
+  color: var(--color-primary);
+}
+
+.client-input-wrap {
+  position: relative;
+}
+
+.client-input-wrap>i {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  z-index: 1;
+  color: #9a8e86;
+  font-size: 12px;
+  transform: translateY(-50%);
+}
+
+.client-input-wrap .form-control {
+  min-height: 39px;
+  padding: 8px 11px 8px 34px;
+  font-size: 10px;
+}
+
+.address-input-wrap>i {
+  top: 13px;
+  transform: none;
+}
+
+.address-input-wrap textarea.form-control {
+  min-height: 62px;
+  resize: vertical;
+}
+
+.client-status-panel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid #eee6df;
+  border-radius: 8px;
+  background: #fdfbf9;
+}
+
+.status-panel-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 8px;
+  background: #edf3ec;
+  color: #64855f;
+  font-size: 12px;
+}
+
+.status-panel-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.status-panel-copy strong {
+  color: #51453e;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.status-panel-copy small {
+  color: var(--color-muted);
+  font-size: 9px;
+}
+
+.client-active-switch {
+  margin: 0;
+  padding-left: 2.5em;
+}
+
+.client-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 17px -23px 0;
+  padding: 12px 23px;
+  border-top: 1px solid #f0ebe7;
+}
+
+.client-form-footer>span {
+  color: var(--color-muted);
+  font-size: 9px;
+}
+
+.client-form-footer>span i {
+  margin-right: 5px;
+  color: var(--color-primary);
+  font-size: 7px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 575.98px) {
+  .client-form-heading {
+    align-items: flex-start;
+  }
+
+  .client-form-heading h1 {
+    font-size: 22px;
+  }
+
+  .form-step {
+    padding: 7px;
+    font-size: 0;
+  }
+
+  .form-step i {
+    font-size: 12px;
+  }
+
+  .client-form-card {
+    padding: 17px 15px 0;
+  }
+
+  .client-fields {
+    padding-bottom: 15px;
+  }
+
+  .client-form-footer {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-right: -15px;
+    margin-left: -15px;
+    padding: 12px 15px;
+  }
+
+  .form-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}

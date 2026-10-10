@@ -16,6 +16,147 @@ body {
   font-family: Inter, "Segoe UI", sans-serif;
 }
 
+.form-label {
+  color: #554941;
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  color: var(--color-text);
+  box-shadow: none;
+}
+
+.form-control::placeholder {
+  color: #a79c94;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(180 96 45 / 10%);
+}
+
+.form-check-input {
+  cursor: pointer;
+}
+
+.form-check-input:checked {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary);
+}
+
+.form-check-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgb(180 96 45 / 12%);
+}
+
+.btn-theme-primary,
+.btn-theme-secondary {
+  border-radius: 7px;
+  font-weight: 600;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.btn-theme-primary {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-theme-primary:hover,
+.btn-theme-primary:focus-visible {
+  border-color: #9f5127;
+  background: #9f5127;
+  color: #fff;
+}
+
+.btn-theme-accent {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn-theme-accent:hover,
+.btn-theme-accent:focus-visible {
+  border-color: #6f1477;
+  background: #6f1477;
+  color: #fff;
+}
+
+.btn-theme-secondary {
+  border-color: var(--color-border);
+  background: #fff;
+  color: #655950;
+}
+
+.btn-theme-secondary:hover,
+.btn-theme-secondary:focus-visible {
+  border-color: #cfc3b9;
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+.btn-form-action {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 10px;
+}
+
+.btn-form-action > i {
+  margin-right: 5px;
+}
+
+.btn-record-action {
+  display: inline-flex;
+  min-height: 27px;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 3px 7px;
+  border: 1px solid var(--color-border);
+  border-radius: 5px;
+  background: #fff;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.btn-record-action > i {
+  font-size: 9px;
+}
+
+.btn-record-view {
+  color: var(--color-sidebar);
+}
+
+.btn-record-view:hover {
+  border-color: var(--color-sidebar);
+  background: #f5f1ef;
+  color: var(--color-sidebar);
+}
+
+.btn-record-edit {
+  color: var(--color-primary);
+}
+
+.btn-record-edit:hover {
+  border-color: var(--color-primary);
+  background: #fbf3ed;
+  color: var(--color-primary);
+}
+
+.btn-record-delete {
+  color: #a34f4f;
+}
+
+.btn-record-delete:hover {
+  border-color: #a34f4f;
+  background: #fcf1f1;
+  color: #923e3e;
+}
+
 ::selection {
   background: rgb(180 96 45 / 18%);
 }

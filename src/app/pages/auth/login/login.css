@@ -233,7 +233,7 @@
 }
 
 .login-form { margin-top: 38px; }
-.login-form .form-label { color: #453a34; font-size: 13px; font-weight: 600; }
+.login-form .form-label { font-size: 13px; }
 
 .input-icon-wrap { position: relative; }
 
@@ -250,18 +250,8 @@
 .login-form .form-control {
   min-height: 49px;
   padding: 12px 43px;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
   background-color: #fff;
-  color: var(--color-text);
   font-size: 13px;
-  box-shadow: none;
-}
-
-.login-form .form-control::placeholder { color: #a89d95; }
-.login-form .form-control:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgb(180 96 45 / 12%);
 }
 
 .text-link,
@@ -286,39 +276,11 @@
   transform: translateY(-50%);
 }
 
-.remember-check .form-check-input {
-  border-color: #cfc4bd;
-  cursor: pointer;
-}
-
-.remember-check .form-check-input:checked {
-  border-color: var(--color-primary);
-  background-color: var(--color-primary);
-}
-
-.remember-check .form-check-input:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px rgb(180 96 45 / 12%);
-}
-
 .remember-check .form-check-label { color: #6f635b; font-size: 12px; }
 
 .btn-sign-in {
   min-height: 49px;
-  border: 0;
-  border-radius: 8px;
-  background: var(--color-primary);
-  color: #fff;
   font-size: 14px;
-  font-weight: 600;
-  transition: background-color .18s ease, transform .18s ease;
-}
-
-.btn-sign-in:hover,
-.btn-sign-in:focus-visible {
-  background: #9f5127;
-  color: #fff;
-  transform: translateY(-1px);
 }
 
 .login-divider {

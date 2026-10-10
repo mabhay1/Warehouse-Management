@@ -2,7 +2,10 @@ export const GLOBAL_CONSTANT={
     API_METHODS:{
         GET_ALL_CLIENTS:'GetAllClients',
         SAVE_CLIENT:'AddClient',
-        LOGIN_USER:'login'
+        LOGIN_USER:'login',
+        GET_CLIENT_BY_ID:'GetClientById?clientId=',
+        UPDATE_CLIENT:'UpdateClient',
+        DELETE_CLIENT:'DeleteClient?clientId='
     },
     LOCAL_LOGIN_KEY: 'WarehouseUser',
     REGEX:{

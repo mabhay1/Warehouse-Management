@@ -1,1 +1,89 @@
-<p>client-form works!</p>
+<section class="client-form-page">
+  <div class="client-form-heading">
+    <div>
+      <div class="client-form-breadcrumb">
+        <i class="fa-solid fa-house" aria-hidden="true"></i>
+        <span>/</span>
+        <a href="#">Clients</a>
+        <span>/</span>
+        <strong>New client</strong>
+      </div>
+      <h1>Add a client</h1>
+      <p>Create a client profile for your warehouse.</p>
+    </div>
+    <span class="form-step"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> CLIENT PROFILE</span>
+  </div>
+
+  <form class="client-form-card" [formGroup]="clientForm">
+    <div class="form-card-heading">
+      <span class="form-card-icon"><i class="fa-regular fa-address-card" aria-hidden="true"></i></span>
+      <div>
+        <h2>Client details</h2>
+        <p>Enter the client's contact information and account status.</p>
+      </div>
+    </div>
+
+    <div class="row g-3 client-fields">
+      <div class="col-12 col-md-6">
+        <label for="client-name" class="form-label">Client name <span class="required-mark">*</span></label>
+        <div class="client-input-wrap">
+          <i class="fa-regular fa-user" aria-hidden="true"></i>
+          <input class="form-control" type="text" id="client-name" formControlName="clientName" name="clientName" placeholder="e.g. Sunrise Produce" autocomplete="organization">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="client-phone" class="form-label">Phone number <span class="required-mark">*</span></label>
+        <div class="client-input-wrap">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          <input class="form-control" type="tel" id="client-phone" formControlName="phoneNumber" name="phoneNumber" placeholder="e.g. 0099009988" autocomplete="tel" >
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="client-email" class="form-label">Email address <span class="required-mark">*</span></label>
+        <div class="client-input-wrap">
+          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+          <input class="form-control" type="email" id="client-email" formControlName="emailAddress" name="emailAddress" placeholder="name@company.com" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="client-address" class="form-label">Client address</label>
+        <div class="client-input-wrap address-input-wrap">
+          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          <textarea class="form-control" id="client-address" formControlName="clientAddress" name="clientAddress" rows="2" placeholder="Street, area, city and postal code" autocomplete="street-address"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="client-status-panel">
+      <span class="status-panel-icon"><i class="fa-solid fa-user-check" aria-hidden="true"></i></span>
+      <span class="status-panel-copy">
+        <strong>Active client</strong>
+        <small>Active clients can be assigned warehouse space and bookings.</small>
+      </span>
+      <div class="form-check form-switch client-active-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="client-active" formControlName="isActive" name="isActive" checked>
+        <label class="visually-hidden" for="client-active">Active client</label>
+      </div>
+    </div>
+
+    <div class="client-form-footer">
+      <span><i class="fa-solid fa-asterisk" aria-hidden="true"></i> Required fields</span>
+      <div class="form-actions">
+        <button class="btn btn-theme-secondary btn-form-action" type="button" (click)="onReset()">Cancel</button>
+        @if(currentClientId==0){
+        <button class="btn btn-theme-accent btn-form-action" type="button" (click)="onSaveClient()">
+          <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save client
+        </button>
+        }
+        @else{
+        <button class="btn btn-theme-primary btn-form-action" type="button" (click)="onUpdateClient()">
+          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Update client
+        </button>
+        }
+      </div>
+    </div>
+  </form>
+</section>

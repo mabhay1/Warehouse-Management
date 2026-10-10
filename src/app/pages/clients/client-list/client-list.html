@@ -1,1 +1,146 @@
-<p>client-list works!</p>
+<section class="clients-page">
+  <div class="clients-heading">
+    <div>
+      <div class="clients-breadcrumb"><i class="fa-solid fa-house" aria-hidden="true"></i><span>/</span> Clients</div>
+      <h1>Clients <span class="client-total">{{clientList().length}}</span></h1>
+      <p>Manage your warehouse clients and their account details.</p>
+    </div>
+    <button class="btn btn-theme-primary add-client-button" type="button" routerLink="/admin/client-form/0">
+      <i class="fa-solid fa-plus" aria-hidden="true"></i>
+      Add client
+    </button>
+  </div>
+
+  <div class="client-summary" aria-label="Client summary">
+    <div class="summary-item">
+      <span class="summary-icon total-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></span>
+      <span class="summary-copy"><small>Total clients</small><strong>{{clientList().length}}</strong></span>
+    </div>
+    <span class="summary-divider" aria-hidden="true"></span>
+    <div class="summary-item">
+      <span class="summary-icon active-icon"><i class="fa-solid fa-user-check" aria-hidden="true"></i></span>
+      <span class="summary-copy"><small>Active</small><strong>0</strong></span>
+    </div>
+    <span class="summary-divider" aria-hidden="true"></span>
+    <div class="summary-item">
+      <span class="summary-icon inactive-icon"><i class="fa-solid fa-user-clock" aria-hidden="true"></i></span>
+      <span class="summary-copy"><small>Inactive</small><strong>1</strong></span>
+    </div>
+  </div>
+
+  <div class="client-toolbar">
+    <div class="client-search">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <input class="form-control" type="search" placeholder="Search by client, email or phone" aria-label="Search clients">
+    </div>
+    <div class="toolbar-controls">
+      <label class="visually-hidden" for="client-status-filter">Filter by status</label>
+      <select class="form-select status-filter" id="client-status-filter">
+        <option selected>All statuses</option>
+        <option>Active</option>
+        <option>Inactive</option>
+      </select>
+      <div class="view-switch" role="group" aria-label="Client view">
+        <button class="view-button" (click)="isCardView=false" [ngClass]="isCardView?'':'selected'" type="button" aria-label="Table view" aria-pressed="true">
+          <i class="fa-solid fa-list" aria-hidden="true"></i><span>Table</span>
+        </button>
+        <button class="view-button" (click)="isCardView=true" [ngClass]="isCardView?'selected':''" type="button" aria-label="Card view" aria-pressed="false">
+          <i class="fa-solid fa-grip" aria-hidden="true"></i><span>Cards</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  @if (!isCardView) {
+  <section class="client-view-section table-section" aria-labelledby="table-view-title">
+    <div class="view-section-heading">
+      <h2 id="table-view-title">Table view</h2>
+      <span>Showing {{clientList().length}} client</span>
+    </div>
+    <div class="table-responsive client-table-wrap">
+      <table class="table client-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col">CLIENT</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">PHONE</th>
+            <th scope="col">ADDRESS</th>
+            <th scope="col">STATUS</th>
+            <th scope="col">CREATED</th>
+            <th scope="col">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of clientList(); track $index) {
+          <tr>
+            <td>
+              <div class="client-identity">
+                <span class="client-avatar">C2</span>
+                <span class="client-identity-copy"><strong>{{item.clientName}}</strong><small>Client account</small></span>
+              </div>
+            </td>
+            <td>{{item.emailAddress}}</td>
+            <td>{{item.phoneNumber}}</td>
+            <td><span class="client-address">{{item.clientAddress}}</span></td>
+            <td><span class="client-status" [ngClass]="item.isActive?'':'inactive-status'"><span></span>{{item.isActive?'Active':'InActive'}}</span></td>
+            <td><span class="created-date">{{item.createdAt|date:'dd MMM yyyy'}}</span></td>
+            <td>
+              <div class="client-action-group">
+                <button class="btn btn-record-action btn-record-view" type="button"><i class="fa-regular fa-eye" aria-hidden="true"></i><span>View</span></button>
+                <button class="btn btn-record-action btn-record-edit" type="button" (click)="onEdit(item.clientId)"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span></button>
+                <button class="btn btn-record-action btn-record-delete" type="button" (click)="onDelete(item.clientId)"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+  }
+  @else{
+  <section class="client-view-section card-section" aria-labelledby="card-view-title">
+    <div class="view-section-heading">
+      <h2 id="card-view-title">Card view</h2>
+      <span>Showing {{clientList().length}} client</span>
+    </div>
+    <div class="row g-3 client-card-grid">
+      @for (item of clientList(); track $index) {
+      <article class="col-12 col-md-6 col-xl-4">
+        <div class="client-card">
+          <div class="client-card-top">
+            <div class="client-identity">
+              <span class="client-avatar">C2</span>
+              <span class="client-identity-copy"><strong>{{item.clientName}}</strong><small>Client account</small></span>
+            </div>
+            <span class="client-status" [ngClass]="item.isActive?'':'inactive-status'"><span></span>{{item.isActive?'Active':'InActive'}}</span>
+          </div>
+          <div class="client-card-details">
+            <div class="client-detail">
+              <span class="detail-label"><i class="fa-regular fa-envelope" aria-hidden="true"></i>Email</span>
+              <a href="mailto:client2@gmail.com">{{item.emailAddress}}</a>
+            </div>
+            <div class="client-detail">
+              <span class="detail-label"><i class="fa-solid fa-phone" aria-hidden="true"></i>Phone</span>
+              <a href="tel:0099009988">{{item.phoneNumber}}</a>
+            </div>
+            <div class="client-detail address-detail">
+              <span class="detail-label"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>Address</span>
+              <span>{{item.clientAddress}}</span>
+            </div>
+            <div class="client-detail">
+              <span class="detail-label"><i class="fa-regular fa-calendar" aria-hidden="true"></i>Client since</span>
+              <span>{{item.createdAt|date:'dd MMM yyyy'}}</span>
+            </div>
+          </div>
+          <div class="client-card-actions">
+            <button class="btn btn-record-action btn-record-view" type="button"><i class="fa-regular fa-eye" aria-hidden="true"></i><span>View</span></button>
+            <button class="btn btn-record-action btn-record-edit" type="button" (click)="onEdit(item.clientId)"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span></button>
+            <button class="btn btn-record-action btn-record-delete" type="button" (click)="onDelete(item.clientId)"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button>
+          </div>
+        </div>
+      </article>
+      }
+    </div>
+  </section>
+  }
+</section>
