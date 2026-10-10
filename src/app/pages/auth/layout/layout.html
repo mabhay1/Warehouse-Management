@@ -45,7 +45,7 @@
                 <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span>
             </a>
             <div class="sidebar-account">
-                <div class="account-avatar" aria-hidden="true">AS</div>
+                <div class="account-avatar" aria-hidden="true">{{loggedUserData?.fullName|getInitials}}</div>
                 <div class="account-details">
                     <strong>{{loggedUserData?.emailId}}</strong>
                     <span>Administrator</span>
@@ -76,7 +76,7 @@
                     <i class="fa-regular fa-bell" aria-hidden="true"></i>
                     <span class="notification-dot"></span>
                 </button>
-                <div class="topbar-avatar" aria-label="Anmol Sharma">AS</div>
+                <div class="topbar-avatar">{{loggedUserData?.fullName|getInitials}}</div>
             </div>
         </header>
 

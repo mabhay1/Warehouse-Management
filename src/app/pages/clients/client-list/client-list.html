@@ -74,7 +74,7 @@
           <tr>
             <td>
               <div class="client-identity">
-                <span class="client-avatar">C2</span>
+                <span class="client-avatar">{{item.clientName|getInitials}}</span>
                 <span class="client-identity-copy"><strong>{{item.clientName}}</strong><small>Client account</small></span>
               </div>
             </td>
@@ -85,7 +85,7 @@
             <td><span class="created-date">{{item.createdAt|date:'dd MMM yyyy'}}</span></td>
             <td>
               <div class="client-action-group">
-                <button class="btn btn-record-action btn-record-view" type="button"><i class="fa-regular fa-eye" aria-hidden="true"></i><span>View</span></button>
+                <!-- <button class="btn btn-record-action btn-record-view" type="button"><i class="fa-regular fa-eye" aria-hidden="true"></i><span>View</span></button> -->
                 <button class="btn btn-record-action btn-record-edit" type="button" (click)="onEdit(item.clientId)"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span></button>
                 <button class="btn btn-record-action btn-record-delete" type="button" (click)="onDelete(item.clientId)"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button>
               </div>
@@ -109,7 +109,7 @@
         <div class="client-card">
           <div class="client-card-top">
             <div class="client-identity">
-              <span class="client-avatar">C2</span>
+              <span class="client-avatar">{{item.clientName|getInitials}}</span>
               <span class="client-identity-copy"><strong>{{item.clientName}}</strong><small>Client account</small></span>
             </div>
             <span class="client-status" [ngClass]="item.isActive?'':'inactive-status'"><span></span>{{item.isActive?'Active':'InActive'}}</span>
@@ -133,7 +133,7 @@
             </div>
           </div>
           <div class="client-card-actions">
-            <button class="btn btn-record-action btn-record-view" type="button"><i class="fa-regular fa-eye" aria-hidden="true"></i><span>View</span></button>
+            <!-- <button class="btn btn-record-action btn-record-view" type="button"><i class="fa-regular fa-eye" aria-hidden="true"></i><span>View</span></button> -->
             <button class="btn btn-record-action btn-record-edit" type="button" (click)="onEdit(item.clientId)"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span></button>
             <button class="btn btn-record-action btn-record-delete" type="button" (click)="onDelete(item.clientId)"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button>
           </div>

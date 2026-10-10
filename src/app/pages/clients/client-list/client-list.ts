@@ -5,9 +5,10 @@ import { ClientService } from '../../../core/services/client/client-service';
 import { API_Response } from '../../../core/models/interfaces/common.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
+import { GetInitialsPipe } from '../../../shared/pipes/get-initials-pipe';
 
 @Component({
-  imports: [NgClass,DatePipe,RouterLink],
+  imports: [NgClass,DatePipe,RouterLink, GetInitialsPipe],
   selector: 'app-client-list',
   styleUrl: './client-list.css',
   templateUrl: './client-list.html',
