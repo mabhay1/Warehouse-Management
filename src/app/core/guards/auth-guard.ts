@@ -3,9 +3,9 @@ import { GLOBAL_CONSTANT } from '../constants/global.constant';
 import { inject } from '@angular/core';
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const isLoggedIn=localStorage.getItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY)
+  const loggedData=localStorage.getItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY)
   const router=inject(Router)
-  if(isLoggedIn!==null){
+  if(loggedData!==null){
     return true
   }
   else{

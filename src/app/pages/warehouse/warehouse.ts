@@ -1,0 +1,149 @@
+import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { WarehouseService } from '../../core/services/warehouse/warehouse-service';
+import { API_Response } from '../../core/models/interfaces/common.model';
+import { IWarehouseList, IWarehouseModel } from '../../core/models/interfaces/warehouse.model';
+import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { GLOBAL_CONSTANT } from '../../core/constants/global.constant';
+
+@Component({
+  imports: [ReactiveFormsModule,NgFor, NgClass,NgIf, DecimalPipe],
+  selector: 'app-warehouse',
+  styleUrl: './warehouse.css',
+  templateUrl: './warehouse.html',
+})
+export class Warehouse implements OnInit {
+
+  warehouseService=inject(WarehouseService)
+
+  warehouseList:WritableSignal<IWarehouseList[]>=signal<IWarehouseList[]>([])
+
+  editWarehouseId:number|undefined
+  totalSQft:number=0
+  coldStorageSites:number=0
+
+  isSubmitted:boolean=false
+
+  warehouseForm!:FormGroup
+
+  constructor(){
+    this.initializeForm()
+  }
+
+  initializeForm() {
+    this.warehouseForm = new FormGroup({
+      title: new FormControl('',[Validators.required,Validators.minLength(3)]),
+      address1: new FormControl('',[Validators.required]),
+      address2: new FormControl('',[Validators.required]),
+      city: new FormControl('',[Validators.required]),
+      totalArea: new FormControl(0,[Validators.required,Validators.min(1),Validators.max(2147483647)]),
+      isColdStorageAvailable: new FormControl(false)
+    })
+  }
+
+  ngOnInit(): void {
+    this.getAllWarehouses()
+  }
+
+  getAllWarehouses(){
+    this.warehouseService.getAllWarehouses().subscribe({
+      next:(res:API_Response)=>{
+        this.warehouseList.set(res.data)
+        this.totalSQft=this.warehouseList().map(warehouse=>warehouse.totalArea).reduce((a,b)=>a+b,0)
+        this.coldStorageSites=this.warehouseList().filter(x=>x.isColdStorageAvailable).length
+      },
+      error:(err:API_Response)=>{
+
+      }
+    })
+  }
+
+  onEdit(item:IWarehouseList){
+    this.editWarehouseId=item.id
+    // this.warehouseForm.patchValue(item)
+    const editObj=structuredClone(item)
+    delete editObj.id
+    this.warehouseForm.setValue(editObj)
+  }
+
+  onDelete(id:number|undefined){
+    const isConfirm=confirm("Are you sure want to delete!!")
+    if(isConfirm){
+      this.warehouseService.deleteWarehouse(id).subscribe({
+        next:(res:API_Response)=>{
+          debugger
+          alert(res.message)
+          if(res.result){
+            this.getAllWarehouses()
+          }
+        },
+        error:(err:HttpErrorResponse)=>{
+          alert(err.message)
+        }
+      })
+    }
+  }
+
+  onReset(){
+    this.warehouseForm.reset()
+    this.editWarehouseId=undefined
+    this.isSubmitted=false
+  }
+
+  getControlErrorMessge(controlName:string){
+    const control=this.warehouseForm.controls[controlName]
+    let errorMessage=''
+    if(control.touched||control.dirty||this.isSubmitted){
+      if(control.errors?.['required']){
+        errorMessage= GLOBAL_CONSTANT.VALIDATION_TEXT.REQUIRED
+      }
+      else if(control.errors?.['minlength']){
+        errorMessage= `Minimum ${control.errors?.['minlength'].requiredLength} character required`
+      }
+      else if(control.errors?.['min'] || control.errors?.['max']){
+        errorMessage=`Value should be between 1 and 2147483647`
+      }
+    }
+    return errorMessage
+
+  }
+
+  onAddWarehouse() {
+    this.isSubmitted = true
+    const formValue = this.warehouseForm.value as IWarehouseModel
+    if (this.warehouseForm.valid) {
+      this.warehouseService.addWarehouse(formValue).subscribe({
+        next: (res: API_Response) => {
+          alert(res.message)
+          if (res.result) {
+            this.getAllWarehouses()
+            this.onReset()
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          alert(err.message)
+        }
+      })
+    }
+  }
+  onUpdateWarehouse() {
+    this.isSubmitted = true
+    const formValue: IWarehouseModel = this.warehouseForm.value
+    if (this.warehouseForm.valid) {
+      this.warehouseService.updateWarehouse(formValue, this.editWarehouseId).subscribe({
+        next: (res: API_Response) => {
+          alert(res.message)
+          if (res.result) {
+            this.getAllWarehouses()
+            this.onReset()
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          alert(err.message)
+        }
+      })
+    }
+  }
+
+}

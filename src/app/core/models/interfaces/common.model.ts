@@ -1,7 +1,7 @@
-export interface API_Response{
+export interface API_Response<T=any>{
     message:string;
     result:boolean;
-    data:any
+    data:T
 }
 
 export interface IUserModel{

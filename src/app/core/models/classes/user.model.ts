@@ -1,9 +1,9 @@
 export class LoginUserModel {
-    emailId: string
+    userName: string
     password: string
 
     constructor(){
-        this.emailId=''
+        this.userName=''
         this.password=''
     }
 }

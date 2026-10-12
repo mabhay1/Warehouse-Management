@@ -3,6 +3,7 @@ import { IUserModel } from '../../../core/models/interfaces/common.model';
 import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { GetInitialsPipe } from '../../../shared/pipes/get-initials-pipe';
+import { IEmployeeList } from '../../../core/models/interfaces/employee.model';
 
 @Component({
   imports: [RouterOutlet,RouterLink,RouterLinkActive, GetInitialsPipe],
@@ -11,7 +12,7 @@ import { GetInitialsPipe } from '../../../shared/pipes/get-initials-pipe';
   templateUrl: './layout.html',
 })
 export class Layout {
-  loggedUserData!:IUserModel
+  loggedUserData!:IEmployeeList
   router=inject(Router)
   constructor(){
     const localData=localStorage.getItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY)
@@ -21,6 +22,7 @@ export class Layout {
   }
   onLogOff(){
     localStorage.removeItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY)
+    localStorage.removeItem(GLOBAL_CONSTANT.LOCAL_LOGIN_TOKEN_KEY)
     this.router.navigateByUrl('/login')
   }
 }

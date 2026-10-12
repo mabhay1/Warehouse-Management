@@ -13,7 +13,7 @@
             <a class="sidebar-link" aria-current="page">
                 <i class="fa-solid fa-house" aria-hidden="true"></i><span>Overview</span>
             </a>
-            <a class="sidebar-link">
+            <a class="sidebar-link" routerLink="/admin/warehouse-list" routerLinkActive="active">
                 <i class="fa-solid fa-warehouse" aria-hidden="true"></i><span>Spaces</span>
                 <span class="nav-count">12</span>
             </a>
@@ -21,8 +21,8 @@
                 <i class="fa-regular fa-calendar-check" aria-hidden="true"></i><span>Bookings</span>
                 <span class="nav-badge">4</span>
             </a>
-            <a class="sidebar-link" routerLink="/admin/client-list" routerLinkActive="active">
-                <i class="fa-solid fa-users" aria-hidden="true"></i><span>Clients</span>
+            <a class="sidebar-link" routerLink="/admin/customer-list" routerLinkActive="active">
+                <i class="fa-solid fa-users" aria-hidden="true"></i><span>Customers</span>
             </a>
             <a class="sidebar-link" >
                 <i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i><span>Inventory</span>
@@ -45,10 +45,10 @@
                 <i class="fa-solid fa-gear" aria-hidden="true"></i><span>Settings</span>
             </a>
             <div class="sidebar-account">
-                <div class="account-avatar" aria-hidden="true">{{loggedUserData?.fullName|getInitials}}</div>
+                <div class="account-avatar" aria-hidden="true">{{loggedUserData?.name|getInitials}}</div>
                 <div class="account-details">
-                    <strong>{{loggedUserData?.emailId}}</strong>
-                    <span>Administrator</span>
+                    <strong>{{loggedUserData?.name}}</strong>
+                    <span>{{loggedUserData?.role}}</span>
                 </div>
                 <button class="account-logout" (click)="onLogOff()" type="button" aria-label="Log off">
                     <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i>
@@ -76,7 +76,7 @@
                     <i class="fa-regular fa-bell" aria-hidden="true"></i>
                     <span class="notification-dot"></span>
                 </button>
-                <div class="topbar-avatar">{{loggedUserData?.fullName|getInitials}}</div>
+                <div class="topbar-avatar">{{loggedUserData?.name|getInitials}}</div>
             </div>
         </header>
 

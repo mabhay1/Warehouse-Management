@@ -22,8 +22,9 @@ export class Login {
     this.userSrv.loginUser(this.loginObj).subscribe({
       next:(res:API_Response)=>{
         if(res.result){
-          localStorage.setItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY,JSON.stringify(res.data))
-          this.router.navigate(['admin/client-list'])
+          localStorage.setItem(GLOBAL_CONSTANT.LOCAL_LOGIN_TOKEN_KEY,res.data.token)
+          localStorage.setItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY,JSON.stringify(res.data.employee))
+          this.router.navigate(['admin/customer-list'])
         }
         else{
           alert(res.message)

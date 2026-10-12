@@ -1,13 +1,23 @@
 export const GLOBAL_CONSTANT={
     API_METHODS:{
-        GET_ALL_CLIENTS:'GetAllClients',
-        SAVE_CLIENT:'AddClient',
-        LOGIN_USER:'login',
-        GET_CLIENT_BY_ID:'GetClientById?clientId=',
-        UPDATE_CLIENT:'UpdateClient',
-        DELETE_CLIENT:'DeleteClient?clientId='
+        LOGIN_USER:'Login',
+        CUSTOMERS:{
+            GET_ALL_CUSTOMERS:'GetAllCustomers',
+            GET_CUSTOMER_BY_ID:'GetCustomerById/',
+            ADD_CUSTOMER:'AddCustomer',
+            UPDATE_CUSTOMER:'UpdateCustomer/',
+            DELETE_CUSTOMER:'DeleteCustomer/'
+        },
+        WAREHOUSE:{
+            GET_ALL_WAREHOUSES:'GetAllWarehouses',
+            GET_WAREHOUSE_BY_ID:'GetWarehouseById/',
+            ADD_WAREHOUSE:'AddWarehouse',
+            UPDATE_WAREHOUSE:'UpdateWarehouse/',
+            DELETE_WAREHOUSE:'DeleteWarehouse/'
+        }
     },
     LOCAL_LOGIN_KEY: 'WarehouseUser',
+    LOCAL_LOGIN_TOKEN_KEY:'WarehouseToken',
     REGEX:{
         EMAIL:'',
         AADHAR_CARD:''

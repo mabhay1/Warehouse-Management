@@ -1,0 +1,224 @@
+<section class="warehouse-page">
+    <header class="warehouse-page-heading">
+        <div>
+            <div class="warehouse-breadcrumb">
+                <i class="fa-solid fa-house" aria-hidden="true"></i>
+                <span>/</span>
+                <strong>Warehouses</strong>
+            </div>
+            <h1>Warehouse management</h1>
+            <p>Manage your locations, storage capacity, and facilities.</p>
+        </div>
+    </header>
+
+    <section class="row g-2 g-lg-3 warehouse-statistics" aria-label="Warehouse statistics">
+        <div class="col-6 col-xl-3">
+            <article class="warehouse-stat-card">
+                <span class="warehouse-stat-icon locations-stat-icon"><i class="fa-solid fa-warehouse"
+                        aria-hidden="true"></i></span>
+                <span class="warehouse-stat-copy"><small>Registered locations</small><strong>{{warehouseList().length}}</strong><span
+                        class="stat-caption">Across your network</span></span>
+            </article>
+        </div>
+        <div class="col-6 col-xl-3">
+            <article class="warehouse-stat-card">
+                <span class="warehouse-stat-icon area-stat-icon"><i class="fa-solid fa-ruler-combined"
+                        aria-hidden="true"></i></span>
+                <span class="warehouse-stat-copy"><small>Combined area</small><strong>{{totalSQft|number:'1.0-0'}} <em>sq
+                            ft</em></strong><span class="stat-caption">Total registered capacity</span></span>
+            </article>
+        </div>
+        <div class="col-6 col-xl-3">
+            <article class="warehouse-stat-card">
+                <span class="warehouse-stat-icon cold-stat-icon"><i class="fa-solid fa-snowflake"
+                        aria-hidden="true"></i></span>
+                <span class="warehouse-stat-copy"><small>Cold storage sites</small><strong>{{coldStorageSites}}</strong><span
+                        class="stat-caption">Temperature-controlled</span></span>
+            </article>
+        </div>
+        <div class="col-6 col-xl-3">
+            <article class="warehouse-stat-card">
+                <span class="warehouse-stat-icon cities-stat-icon"><i class="fa-solid fa-location-dot"
+                        aria-hidden="true"></i></span>
+                <span class="warehouse-stat-copy"><small>Cities covered</small><strong>2</strong><span
+                        class="stat-caption">Active warehouse cities</span></span>
+            </article>
+        </div>
+    </section>
+
+    <div class="row g-3 warehouse-layout">
+        <div class="col-12 col-xl-7">
+            <section class="warehouse-panel warehouse-list-panel" aria-labelledby="warehouse-list-title">
+                <div class="warehouse-panel-heading">
+                    <div>
+                        <h2 id="warehouse-list-title">Warehouse locations</h2>
+                        <p>Your registered storage facilities</p>
+                    </div>
+                    <span class="warehouse-total-badge">{{warehouseList().length}} locations</span>
+                </div>
+
+                <div class="warehouse-search-wrap">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input class="form-control" type="search" placeholder="Search warehouses"
+                        aria-label="Search warehouses">
+                </div>
+
+                <div class="table-responsive warehouse-table-wrap">
+                    <table class="table warehouse-table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">WAREHOUSE</th>
+                                <th scope="col">CITY</th>
+                                <th scope="col">AREA</th>
+                                <th scope="col">COLD STORAGE</th>
+                                <th scope="col">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let warehouse of warehouseList(); let srno=index">
+                                <td>
+                                    <div class="warehouse-identity">
+                                        <span class="warehouse-avatar"><i class="fa-solid fa-warehouse"
+                                                aria-hidden="true"></i></span>
+                                        <span><strong>{{warehouse.title}}</strong><small>{{warehouse.address1}}</small></span>
+                                    </div>
+                                </td>
+                                <td>{{warehouse.city}}</td>
+                                <td><strong class="area-value">{{warehouse.totalArea}}</strong><small class="area-unit">sq ft</small>
+                                </td>
+                                <td>
+                                    <span class="facility-status" 
+                                    [class.facility-available]="warehouse.isColdStorageAvailable" 
+                                    [class.facility-unavailable]="!warehouse.isColdStorageAvailable"
+                                    >
+                                        <i class="fa-solid fa-snowflake" 
+                                        [ngClass]="warehouse.isColdStorageAvailable?'fa-snowflake':'fa-temperature-high'" 
+                                        aria-hidden="true"
+                                        ></i>{{warehouse.isColdStorageAvailable?'Available':'Not available'}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="record-action-group warehouse-row-actions">
+                                        <button class="btn btn-record-action btn-record-edit" type="button"
+                                            aria-label="Edit Northside Storage" (click)="onEdit(warehouse)">
+                                            <i class="fa-regular fa-pen-to-square"
+                                                aria-hidden="true"></i><span>Edit</span>
+                                        </button>
+                                        <button class="btn btn-record-action btn-record-delete" type="button"
+                                            aria-label="Delete Northside Storage" (click)="onDelete(warehouse.id)">
+                                            <i class="fa-regular fa-trash-can"
+                                                aria-hidden="true"></i><span>Delete</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="warehouse-list-footer">
+                    <span>Showing <strong>2</strong> of <strong>2</strong> warehouses</span>
+                    <span class="warehouse-list-legend"><i class="fa-solid fa-circle" aria-hidden="true"></i> Cold
+                        storage available</span>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-12 col-xl-5">
+            <section class="warehouse-panel warehouse-form-panel" aria-labelledby="warehouse-form-title">
+                <div class="warehouse-panel-heading form-panel-heading">
+                    <span class="warehouse-form-icon"><i class="fa-solid fa-warehouse" aria-hidden="true"></i></span>
+                    <div>
+                        <h2 id="warehouse-form-title">Warehouse details</h2>
+                        <p>Add a new location or update its information.</p>
+                    </div>
+                </div>
+                <form class="warehouse-form" [formGroup]="warehouseForm" (ngSubmit)="editWarehouseId?onUpdateWarehouse():onAddWarehouse()">
+                    <div class="mb-3">
+                        <label for="warehouse-title" class="form-label">Warehouse name <span
+                                class="required-mark">*</span></label>
+                        <div class="warehouse-input-wrap">
+                            <i class="fa-solid fa-warehouse" aria-hidden="true"></i>
+                            <input class="form-control" formControlName="title" type="text" id="warehouse-title" name="title"
+                                placeholder="e.g. Northside Storage">   
+                        </div>
+                        <p class="text-danger">{{getControlErrorMessge('title')}}</p> 
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label for="warehouse-address1" class="form-label">Address line 1 <span
+                                    class="required-mark">*</span></label>
+                            <div class="warehouse-input-wrap">
+                                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                                <input class="form-control" formControlName="address1" type="text" id="warehouse-address1" name="address1"
+                                    placeholder="Street address" autocomplete="address-line1">
+                            </div>
+                            <p class="text-danger">{{getControlErrorMessge('address1')}}</p> 
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="warehouse-address2" class="form-label">Address line 2 <span
+                                    class="required-mark">*</span></label>
+                            <div class="warehouse-input-wrap">
+                                <i class="fa-regular fa-map" aria-hidden="true"></i>
+                                <input class="form-control" formControlName="address2" type="text" id="warehouse-address2" name="address2"
+                                    placeholder="Suite, unit, landmark" autocomplete="address-line2">
+                            </div>
+                            <p class="text-danger">{{getControlErrorMessge('address2')}}</p> 
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-12 col-md-6">
+                            <label for="warehouse-city" class="form-label">City <span
+                                    class="required-mark">*</span></label>
+                            <div class="warehouse-input-wrap">
+                                <i class="fa-solid fa-city" aria-hidden="true"></i>
+                                <input class="form-control" formControlName="city" type="text" id="warehouse-city" name="city"
+                                    placeholder="e.g. Pune" autocomplete="address-level2">
+                            </div>
+                            <p class="text-danger">{{getControlErrorMessge('city')}}</p> 
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="warehouse-area" class="form-label">Total area <span
+                                    class="required-mark">*</span></label>
+                            <div class="input-group warehouse-area-input">
+                                <span class="input-group-text"><i class="fa-solid fa-ruler-combined"
+                                        aria-hidden="true"></i></span>
+                                <input class="form-control" type="number" formControlName="totalArea" id="warehouse-area" name="totalArea" min="0"
+                                    step="1" placeholder="e.g. 12500">
+                                <span class="input-group-text area-unit-suffix">sq ft</span>
+                            </div>
+                            <p class="text-danger">{{getControlErrorMessge('totalArea')}}</p> 
+                        </div>
+                    </div>
+
+                    <div class="cold-storage-option">
+                        <span class="cold-storage-icon"><i class="fa-solid fa-snowflake" aria-hidden="true"></i></span>
+                        <span class="cold-storage-copy">
+                            <strong>Cold storage available</strong>
+                            <small>Enable if this warehouse has temperature-controlled storage.</small>
+                        </span>
+                        <div class="form-check form-switch cold-storage-switch">
+                            <input class="form-check-input" formControlName="isColdStorageAvailable" type="checkbox" role="switch" id="cold-storage"
+                                name="isColdStorageAvailable">
+                            <label class="visually-hidden" for="cold-storage">Cold storage available</label>
+                        </div>
+                    </div>
+
+                    <div class="warehouse-form-actions">
+                        <button class="btn btn-theme-secondary btn-form-action" (click)="onReset()" type="button">Cancel</button>
+                        <button *ngIf="editWarehouseId===undefined else updateButton" class="btn btn-save btn-form-action" type="submit">
+                            <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save warehouse
+                        </button>
+                        <ng-template #updateButton>
+                            <button class="btn btn-update btn-form-action" type="submit">
+                                <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Update
+                            </button>
+                        </ng-template>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</section>

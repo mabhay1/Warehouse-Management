@@ -54,7 +54,9 @@ body {
 }
 
 .btn-theme-primary,
-.btn-theme-secondary {
+.btn-theme-secondary,
+.btn-save,
+.btn-update {
   border-radius: 7px;
   font-weight: 600;
   transition: background-color .18s ease, border-color .18s ease, color .18s ease;
@@ -66,6 +68,19 @@ body {
   color: #fff;
 }
 
+.btn-save {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-save:hover,
+.btn-save:focus-visible {
+  border-color: #9f5127;
+  background: #9f5127;
+  color: #fff;
+}
+
 .btn-theme-primary:hover,
 .btn-theme-primary:focus-visible {
   border-color: #9f5127;
@@ -73,14 +88,17 @@ body {
   color: #fff;
 }
 
-.btn-theme-accent {
+.btn-theme-accent,
+.btn-update {
   border-color: var(--color-accent);
   background: var(--color-accent);
   color: #fff;
 }
 
 .btn-theme-accent:hover,
-.btn-theme-accent:focus-visible {
+.btn-theme-accent:focus-visible,
+.btn-update:hover,
+.btn-update:focus-visible {
   border-color: #6f1477;
   background: #6f1477;
   color: #fff;
@@ -125,6 +143,12 @@ body {
 
 .btn-record-action > i {
   font-size: 9px;
+}
+
+.record-action-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .btn-record-view {

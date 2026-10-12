@@ -1,0 +1,137 @@
+<section class="customers-page">
+  <div class="customers-heading">
+    <div>
+      <div class="customers-breadcrumb"><i class="fa-solid fa-house" aria-hidden="true"></i><span>/</span> Customers</div>
+      <h1>Customers <span class="customer-total">{{customerList().length}}</span></h1>
+      <p>Manage customer contact details and GST information.</p>
+    </div>
+    <button class="btn btn-theme-primary add-customer-button" type="button" routerLink="/admin/customer-form/0">
+      <i class="fa-solid fa-plus" aria-hidden="true"></i>
+      Add customer
+    </button>
+  </div>
+
+  <div class="customer-summary" aria-label="Customer summary">
+    <div class="customer-summary-item">
+      <span class="customer-summary-icon"><i class="fa-solid fa-users" aria-hidden="true"></i></span>
+      <span class="customer-summary-copy"><small>Total customers</small><strong>{{customerList().length}}</strong></span>
+    </div>
+  </div>
+
+  <div class="customer-toolbar">
+    <div class="customer-search">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <input class="form-control" type="search" placeholder="Search by name, mobile, email or GST" aria-label="Search customers">
+    </div>
+    <div class="customer-toolbar-controls">
+      <label class="visually-hidden" for="customer-gst-filter">Filter by GST details</label>
+      <select class="form-select customer-gst-filter" id="customer-gst-filter">
+        <option selected>All GST records</option>
+        <option>With GST No.</option>
+        <option>Without GST No.</option>
+      </select>
+      <div class="customer-view-switch" role="group" aria-label="Customer view">
+        <button class="customer-view-button" (click)="isTableView=true" [class.selected] ="isTableView" type="button" aria-label="Table view" aria-pressed="true">
+          <i class="fa-solid fa-list" aria-hidden="true"></i><span>Table</span>
+        </button>
+        <button class="customer-view-button" (click)="isTableView=false" [class.selected] ="!isTableView" type="button" aria-label="Card view" aria-pressed="false">
+          <i class="fa-solid fa-grip" aria-hidden="true"></i><span>Cards</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <section *ngIf="isTableView" class="customer-view-section customer-table-section" aria-labelledby="customer-table-title">
+    <div class="customer-view-heading">
+      <h2 id="customer-table-title">Table view</h2>
+      <span>{{customerList().length}} customer record</span>
+    </div>
+    <div class="table-responsive">
+      <table class="table customer-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col">NAME</th>
+            <th scope="col">MOBILE</th>
+            <th scope="col">EMAIL</th>
+            <th scope="col">ADDRESS</th>
+            <th scope="col">GST NO.</th>
+            <th scope="col">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of customerList(); track $index) {
+          <tr>
+            <td>
+              <div class="customer-identity">
+                <span class="customer-avatar">{{item.name|getInitials}}</span>
+                <span class="customer-identity-copy"><strong>{{item.name}}</strong></span>
+              </div>
+            </td>
+            <td>{{item.mobile}}</td>
+            <td>{{item.email}}</td>
+            <td><span class="customer-address">{{item.address}}</span></td>
+            <td><span class="customer-gst-value">{{item.gstNo}}</span></td>
+            <td>
+              <div class="record-action-group">
+                <button class="btn btn-record-action btn-record-edit" type="button" aria-label="Edit test customer" (click)="onEdit(item)">
+                  <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span>
+                </button>
+                <button class="btn btn-record-action btn-record-delete" type="button" aria-label="Delete test customer" (click)="onDelete(item.id)">
+                  <i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section *ngIf="!isTableView" class="customer-view-section customer-card-section" aria-labelledby="customer-card-title">
+    <div class="customer-view-heading">
+      <h2 id="customer-card-title">Card view</h2>
+      <span>{{customerList().length}} customer record</span>
+    </div>
+    <div class="row g-3 customer-card-grid">
+      @for (item of customerList(); track $index) {
+      <article class="col-12 col-md-6 col-xl-4">
+        <div class="customer-card">
+          <div class="customer-card-heading">
+            <div class="customer-identity">
+              <span class="customer-avatar">{{item.name|getInitials}}</span>
+              <span class="customer-identity-copy"><strong>{{item.name}}</strong></span>
+            </div>
+          </div>
+          <div class="customer-card-details">
+            <div class="customer-detail">
+              <span class="customer-detail-label"><i class="fa-solid fa-phone" aria-hidden="true"></i>Mobile</span>
+              <span>{{item.mobile}}</span>
+            </div>
+            <div class="customer-detail">
+              <span class="customer-detail-label"><i class="fa-regular fa-envelope" aria-hidden="true"></i>Email</span>
+              <span>{{item.email}}</span>
+            </div>
+            <div class="customer-detail customer-address-detail">
+              <span class="customer-detail-label"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>Address</span>
+              <span>{{item.address}}</span>
+            </div>
+            <div class="customer-detail">
+              <span class="customer-detail-label"><i class="fa-solid fa-file-invoice" aria-hidden="true"></i>GST No.</span>
+              <span class="customer-gst-value">{{item.gstNo}}</span>
+            </div>
+          </div>
+          <div class="record-action-group customer-card-actions">
+            <button class="btn btn-record-action btn-record-edit" (click)="onEdit(item)" type="button" aria-label="Edit test customer">
+              <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span>
+            </button>
+            <button class="btn btn-record-action btn-record-delete" (click)="onDelete(item.id)" type="button" aria-label="Delete test customer">
+              <i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span>
+            </button>
+          </div>
+        </div>
+      </article>
+      }
+    </div>
+  </section>
+</section>

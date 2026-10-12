@@ -1,0 +1,328 @@
+.warehouse-page {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.warehouse-page-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.warehouse-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 7px;
+  color: var(--color-muted);
+  font-size: 10px;
+}
+
+.warehouse-breadcrumb > i { color: var(--color-primary); }
+.warehouse-breadcrumb > span { color: #c2b7af; }
+.warehouse-breadcrumb strong { color: var(--color-text); font-weight: 600; }
+
+.warehouse-page-heading h1 {
+  margin: 0 0 5px;
+  color: var(--color-text);
+  font-size: 23px;
+  font-weight: 650;
+  letter-spacing: -.6px;
+}
+
+.warehouse-page-heading p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 10px;
+}
+
+.warehouse-statistics { margin-bottom: 14px; }
+
+.warehouse-stat-card {
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(52 41 35 / 2%);
+}
+
+.warehouse-stat-icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 9px;
+  font-size: 12px;
+}
+
+.locations-stat-icon { background: #f7eee8; color: var(--color-primary); }
+.area-stat-icon { background: #f1e9f3; color: var(--color-accent); }
+.cold-stat-icon { background: #edf1f5; color: #64809a; }
+.cities-stat-icon { background: #edf3ec; color: #64855f; }
+
+.warehouse-stat-copy { display: flex; min-width: 0; flex-direction: column; gap: 2px; }
+.warehouse-stat-copy small { overflow: hidden; color: var(--color-muted); font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.warehouse-stat-copy strong { color: var(--color-text); font-size: 15px; font-weight: 650; line-height: 1.15; }
+.warehouse-stat-copy strong em { color: #8c8078; font-size: 9px; font-style: normal; font-weight: 500; }
+.warehouse-stat-copy .stat-caption { overflow: hidden; color: #a0958d; font-size: 7px; text-overflow: ellipsis; white-space: nowrap; }
+
+.warehouse-layout { align-items: flex-start; }
+
+.warehouse-panel {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(52 41 35 / 3%);
+}
+
+.warehouse-panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 15px 16px 13px;
+  border-bottom: 1px solid #f0ebe7;
+}
+
+.warehouse-panel-heading h2 {
+  margin: 0 0 4px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.warehouse-panel-heading p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 9px;
+}
+
+.warehouse-total-badge {
+  padding: 5px 8px;
+  border-radius: 20px;
+  background: #f7eee8;
+  color: var(--color-primary);
+  font-size: 8px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.warehouse-search-wrap {
+  position: relative;
+  margin: 12px 14px 0;
+}
+
+.warehouse-search-wrap > i {
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  z-index: 1;
+  color: #9a8e86;
+  font-size: 10px;
+  transform: translateY(-50%);
+}
+
+.warehouse-search-wrap .form-control {
+  min-height: 33px;
+  padding: 6px 10px 6px 30px;
+  font-size: 9px;
+}
+
+.warehouse-table { min-width: 580px; }
+
+.warehouse-table thead th {
+  padding: 10px 11px;
+  border-bottom-color: #f0ebe7;
+  background: #fdfcfb;
+  color: #988c84;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .55px;
+  white-space: nowrap;
+}
+
+.warehouse-table tbody td {
+  padding: 11px;
+  border-bottom-color: #f1ece8;
+  color: #6e625b;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.warehouse-table tbody tr:last-child td { border-bottom: 0; }
+
+.warehouse-identity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.warehouse-avatar {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 8px;
+  background: #f7eee8;
+  color: var(--color-primary);
+  font-size: 11px;
+}
+
+.warehouse-avatar-purple { background: #f1e9f3; color: var(--color-accent); }
+.warehouse-identity > span:last-child { display: flex; flex-direction: column; gap: 3px; }
+.warehouse-identity strong { color: #493e38; font-size: 9px; font-weight: 650; }
+.warehouse-identity small { color: #988c84; font-size: 8px; }
+.area-value { color: #51463f; font-size: 9px; font-weight: 600; }
+.area-unit { display: block; margin-top: 2px; color: #9a8e86; font-size: 8px; }
+
+.facility-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 7px;
+  border-radius: 20px;
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.facility-available { background: #edf3ec; color: #64855f; }
+.facility-unavailable { background: #f4efea; color: #88796e; }
+.facility-status i { font-size: 8px; }
+.warehouse-list-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  border-top: 1px solid #f0ebe7;
+  color: var(--color-muted);
+  font-size: 8px;
+}
+
+.warehouse-list-footer strong { color: #5f544d; font-weight: 600; }
+.warehouse-list-legend { white-space: nowrap; }
+.warehouse-list-legend i { margin-right: 4px; color: #64855f; font-size: 6px; }
+
+.warehouse-form-panel { padding-bottom: 0; }
+
+.form-panel-heading {
+  justify-content: flex-start;
+  padding-bottom: 13px;
+}
+
+.warehouse-form-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 9px;
+  background: #f7eee8;
+  color: var(--color-primary);
+  font-size: 14px;
+}
+
+.warehouse-form { padding: 14px 16px 0; }
+.warehouse-form .form-label { margin-bottom: 5px; font-size: 9px; }
+.required-mark { color: var(--color-primary); }
+
+.warehouse-input-wrap { position: relative; }
+
+.warehouse-input-wrap > i {
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  z-index: 1;
+  color: #9a8e86;
+  font-size: 10px;
+  transform: translateY(-50%);
+}
+
+.warehouse-input-wrap .form-control,
+.warehouse-area-input .form-control {
+  min-height: 34px;
+  padding: 6px 9px 6px 30px;
+  font-size: 9px;
+}
+
+.warehouse-form .form-control::placeholder { color: #a79c94; }
+
+.warehouse-area-input .input-group-text {
+  min-height: 34px;
+  padding: 5px 8px;
+  border-color: var(--color-border);
+  background: #fdfcfb;
+  color: #9a8e86;
+  font-size: 9px;
+}
+
+.warehouse-area-input .input-group-text:first-child { border-radius: 7px 0 0 7px; }
+.warehouse-area-input .input-group-text:first-child i { font-size: 10px; }
+.warehouse-area-input .form-control { padding-left: 9px; }
+.warehouse-area-input .area-unit-suffix { color: #766a62; font-size: 8px; }
+
+.cold-storage-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+  border: 1px solid #eee6df;
+  border-radius: 8px;
+  background: #fdfbf9;
+}
+
+.cold-storage-icon {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 8px;
+  background: #edf1f5;
+  color: #64809a;
+  font-size: 12px;
+}
+
+.cold-storage-copy { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 3px; }
+.cold-storage-copy strong { color: #51453e; font-size: 9px; font-weight: 600; }
+.cold-storage-copy small { color: var(--color-muted); font-size: 8px; line-height: 1.4; }
+.cold-storage-switch { margin: 0; padding-left: 2.5em; }
+
+.warehouse-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 7px;
+  margin: 14px -16px 0;
+  padding: 11px 16px;
+  border-top: 1px solid #f0ebe7;
+}
+
+.warehouse-form-actions .btn-form-action { min-height: 32px; font-size: 9px; }
+
+@media (max-width: 767.98px) {
+  .warehouse-page-heading h1 { font-size: 21px; }
+}
+
+@media (max-width: 575.98px) {
+  .warehouse-page-heading { align-items: flex-start; }
+  .warehouse-page-heading h1 { font-size: 19px; }
+  .warehouse-stat-card { min-height: 68px; gap: 7px; padding: 8px; }
+  .warehouse-stat-icon { width: 28px; height: 28px; font-size: 10px; }
+  .warehouse-stat-copy strong { font-size: 13px; }
+  .warehouse-panel-heading { padding-right: 12px; padding-left: 12px; }
+  .warehouse-form { padding-right: 12px; padding-left: 12px; }
+  .warehouse-form-actions { margin-right: -12px; margin-left: -12px; padding-right: 12px; padding-left: 12px; }
+  .warehouse-form-actions { flex-wrap: wrap; }
+  .warehouse-form-actions .btn-form-action { flex: 1; }
+  .warehouse-list-footer { align-items: flex-start; flex-direction: column; }
+}

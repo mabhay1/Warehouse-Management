@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
 import { Login } from './pages/auth/login/login';
 import { Layout } from './pages/auth/layout/layout';
-import { ClientList } from './pages/clients/client-list/client-list';
-import { ClientForm } from './pages/clients/client-form/client-form';
+import { CustomerList } from './pages/customers/customer-list/customer-list';
+import { CustomerForm } from './pages/customers/customer-form/customer-form';
 import { authGuard } from './core/guards/auth-guard';
+import { Warehouse } from './pages/warehouse/warehouse';
 
 export const routes: Routes = [
     {
@@ -21,12 +22,16 @@ export const routes: Routes = [
         canActivate:[authGuard],
         children:[
             {
-                path:'client-list',
-                component:ClientList
+                path:'customer-list',
+                component:CustomerList
             },
             {
-                path:'client-form/:id',
-                component:ClientForm
+                path:'customer-form/:id',
+                component:CustomerForm
+            },
+            {
+                path:'warehouse-list',
+                component:Warehouse
             }
         ]
     }
