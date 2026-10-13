@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <form class="warehouse-form" [formGroup]="warehouseForm" (ngSubmit)="editWarehouseId?onUpdateWarehouse():onAddWarehouse()">
-                    <div class="mb-3">
+                    <div class="mb-2">
                         <label for="warehouse-title" class="form-label">Warehouse name <span
                                 class="required-mark">*</span></label>
                         <div class="warehouse-input-wrap">
@@ -137,7 +137,7 @@
                         <p class="text-danger">{{getControlErrorMessge('title')}}</p> 
                     </div>
 
-                    <div class="row g-3 mb-3">
+                    <div class="row g-2 mb-2">
                         <div class="col-12 col-md-6">
                             <label for="warehouse-address1" class="form-label">Address line 1 <span
                                     class="required-mark">*</span></label>
@@ -160,7 +160,7 @@
                         </div>
                     </div>
 
-                    <div class="row g-3 mb-3">
+                    <div class="row g-2 mb-2">
                         <div class="col-12 col-md-6">
                             <label for="warehouse-city" class="form-label">City <span
                                     class="required-mark">*</span></label>
