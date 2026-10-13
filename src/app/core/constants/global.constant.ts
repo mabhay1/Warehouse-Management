@@ -14,12 +14,19 @@ export const GLOBAL_CONSTANT={
             ADD_WAREHOUSE:'AddWarehouse',
             UPDATE_WAREHOUSE:'UpdateWarehouse/',
             DELETE_WAREHOUSE:'DeleteWarehouse/'
+        },
+        EMPLOYEE:{
+            GET_ALL_EMPLOYEES:'GetAllEmployees',
+            GET_EMPLOYEE_BY_ID:'GetEmployeeById/',
+            ADD_EMPLOYEE:'AddEmployee',
+            UPDATE_EMPLOYEE:'UpdateEmployee/',
+            DELETE_EMPLOYEE:'DeleteEmployee/' 
         }
     },
     LOCAL_LOGIN_KEY: 'WarehouseUser',
     LOCAL_LOGIN_TOKEN_KEY:'WarehouseToken',
     REGEX:{
-        EMAIL:'',
+        EMAIL:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         AADHAR_CARD:''
     },
     VALIDATION_TEXT:{

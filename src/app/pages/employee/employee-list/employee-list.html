@@ -1,1 +1,55 @@
-<p>employee-list works!</p>
+<section class="employee-list-page">
+  <header class="employee-list-heading">
+    <div>
+      <div class="employee-breadcrumb"><i class="fa-solid fa-house" aria-hidden="true"></i><span>/</span> Employees</div>
+      <h1>Employees <span class="employee-count">{{employeeList().length}}</span></h1>
+      <p>Manage your team and their warehouse assignments.</p>
+    </div>
+    <button class="btn btn-theme-primary employee-add-button" type="button" routerLink="/admin/employee-form/0">
+      <i class="fa-solid fa-plus" aria-hidden="true"></i> Add employee
+    </button>
+  </header>
+
+  <div class="employee-toolbar">
+    <div class="employee-search">
+      <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+      <input class="form-control" type="search" placeholder="Search by name, email or mobile" aria-label="Search employees">
+    </div>
+    <label class="visually-hidden" for="employee-role-filter">Filter by role</label>
+    <select class="form-select employee-role-filter" id="employee-role-filter">
+      <option selected>All roles</option>
+      <option>Admin</option>
+      <option>Manager</option>
+      <option>Employee</option>
+    </select>
+  </div>
+
+  <div class="row g-2 g-lg-3 employee-card-grid">
+    <div *ngFor="let employee of employeeList()" class="col-12 col-sm-6 col-xl-4">
+      <article class="employee-card">
+        <div class="employee-card-header">
+          <span class="employee-avatar">{{employee.name|getInitials}}</span>
+          <div class="employee-name-block">
+            <h2>{{employee.name}}</h2>
+            <span class="employee-role"><i class="fa-solid fa-user-shield" aria-hidden="true"></i>{{employee.role}}</span>
+          </div>
+          <button class="employee-more-button" type="button" aria-label="More actions for test_employee">
+            <i class="fa-solid fa-ellipsis" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="employee-card-info">
+          <div class="employee-info-item"><i class="fa-regular fa-envelope" aria-hidden="true"></i><span>{{employee.userName}}</span></div>
+          <div class="employee-info-item"><i class="fa-solid fa-phone" aria-hidden="true"></i><span>{{employee.mobileNo}}</span></div>
+        </div>
+        <div class="employee-warehouse">
+          <span class="employee-warehouse-icon"><i class="fa-solid fa-warehouse" aria-hidden="true"></i></span>
+          <span><small>Assigned warehouse</small><strong>{{employee.warehouseName}}</strong><small>{{employee.warehouseCity}}</small></span>
+        </div>
+        <div class="record-action-group employee-card-actions">
+          <button [routerLink]="'/admin/employee-form/'+employee.id" class="btn btn-record-action btn-record-edit" type="button"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span></button>
+          <button class="btn btn-record-action btn-record-delete" (click)="onDelete(employee.id)" type="button"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

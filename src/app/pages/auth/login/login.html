@@ -55,14 +55,17 @@
                     <p>Manage your warehouse, your way.</p>
                 </div>
 
-                <form class="login-form">
+                <form class="login-form" #loginForm="ngForm">
                     <div class="mb-4">
-                        <label for="email" class="form-label">UserName</label>
+                        <label for="userName" class="form-label">UserName</label>
                         <div class="input-icon-wrap">
                             <i class="fa-regular fa-envelope input-icon" aria-hidden="true"></i>
-                            <input class="form-control" [(ngModel)]="loginObj.userName" type="email" id="email" name="emailId"
-                                placeholder="you@company.com" autocomplete="username">
+                            <input class="form-control" #username="ngModel" [(ngModel)]="loginObj.userName" type="text" id="userName" name="userName"
+                              placeholder="Enter your username" autocomplete="username" required>
                         </div>
+                        @if(username.touched||username.dirty||isSubmitted){
+                            <p class="text-danger">{{username.errors|getValidationError}}</p>
+                        }
                     </div>
 
                     <div class="mb-3">
@@ -72,12 +75,15 @@
                         </div>
                         <div class="input-icon-wrap">
                             <i class="fa-solid fa-lock input-icon" aria-hidden="true"></i>
-                            <input class="form-control" [(ngModel)]="loginObj.password" type="password" id="password" name="password"
-                                placeholder="Enter your password" autocomplete="current-password">
-                            <button class="password-toggle" type="button" aria-label="Show password">
-                                <i class="fa-regular fa-eye" aria-hidden="true"></i>
+                            <input class="form-control" #userPassword="ngModel" [(ngModel)]="loginObj.password" [type]="showHidePassword?'text':'password'" id="password" name="password"
+                                placeholder="Enter your password" autocomplete="current-password" required>
+                            <button *ngIf="loginObj.password.length>0" class="password-toggle" type="button" aria-label="Show password" (click)="showHidePassword=!showHidePassword">
+                                <i class="fa-regular fa-eye" [ngClass]="showHidePassword?'fa-eye-slash':'fa-eye'" aria-hidden="true"></i>
                             </button>
                         </div>
+                        @if(userPassword.touched||userPassword.dirty||isSubmitted){
+                            <p class="text-danger">{{userPassword.errors|getValidationError}}</p>
+                        }
                     </div>
 
                     <div class="form-check remember-check mb-4">
@@ -85,8 +91,11 @@
                         <label class="form-check-label" for="remember">Keep me signed in</label>
                     </div>
 
-                    <button class="btn btn-theme-primary btn-sign-in w-100" type="button" (click)="onLogin()">
+                    <button [disabled]="loading()" class="btn btn-theme-primary btn-sign-in w-100" type="button" (click)="onLogin(loginForm)">
                         Sign in <i class="fa-solid fa-arrow-right ms-2" aria-hidden="true"></i>
+                        @if(loading()){
+                            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                        }
                     </button>
 
                     <div class="login-divider"><span>SECURE TEAM ACCESS</span></div>

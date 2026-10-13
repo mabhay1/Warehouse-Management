@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { IUserModel } from '../../../core/models/interfaces/common.model';
 import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { GetInitialsPipe } from '../../../shared/pipes/get-initials-pipe';

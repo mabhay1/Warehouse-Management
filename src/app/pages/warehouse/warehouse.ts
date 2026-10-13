@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WarehouseService } from '../../core/services/warehouse/warehouse-service';
 import { API_Response } from '../../core/models/interfaces/common.model';
@@ -6,6 +6,7 @@ import { IWarehouseList, IWarehouseModel } from '../../core/models/interfaces/wa
 import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GLOBAL_CONSTANT } from '../../core/constants/global.constant';
+import { finalize, Subject, takeUntil } from 'rxjs';
 
 @Component({
   imports: [ReactiveFormsModule,NgFor, NgClass,NgIf, DecimalPipe],
@@ -13,11 +14,12 @@ import { GLOBAL_CONSTANT } from '../../core/constants/global.constant';
   styleUrl: './warehouse.css',
   templateUrl: './warehouse.html',
 })
-export class Warehouse implements OnInit {
+export class Warehouse implements OnInit,OnDestroy {
 
   warehouseService=inject(WarehouseService)
 
   warehouseList:WritableSignal<IWarehouseList[]>=signal<IWarehouseList[]>([])
+  loading=signal<boolean>(false)
 
   editWarehouseId:number|undefined
   totalSQft:number=0
@@ -26,6 +28,8 @@ export class Warehouse implements OnInit {
   isSubmitted:boolean=false
 
   warehouseForm!:FormGroup
+
+  takeUntilSubject$:Subject<void>=new Subject<void>()
 
   constructor(){
     this.initializeForm()
@@ -47,10 +51,12 @@ export class Warehouse implements OnInit {
   }
 
   getAllWarehouses(){
-    this.warehouseService.getAllWarehouses().subscribe({
-      next:(res:API_Response)=>{
+    this.warehouseService.getAllWarehouses().pipe(
+      takeUntil(this.takeUntilSubject$)
+    ).subscribe({
+      next:(res:API_Response<IWarehouseList[]>)=>{
         this.warehouseList.set(res.data)
-        this.totalSQft=this.warehouseList().map(warehouse=>warehouse.totalArea).reduce((a,b)=>a+b,0)
+        this.totalSQft=this.warehouseList().reduce((acc,current)=>acc+current.totalArea,0)
         this.coldStorageSites=this.warehouseList().filter(x=>x.isColdStorageAvailable).length
       },
       error:(err:API_Response)=>{
@@ -70,9 +76,10 @@ export class Warehouse implements OnInit {
   onDelete(id:number|undefined){
     const isConfirm=confirm("Are you sure want to delete!!")
     if(isConfirm){
-      this.warehouseService.deleteWarehouse(id).subscribe({
-        next:(res:API_Response)=>{
-          debugger
+      this.warehouseService.deleteWarehouse(id).pipe(
+        takeUntil(this.takeUntilSubject$)
+      ).subscribe({
+        next:(res:API_Response<any>)=>{
           alert(res.message)
           if(res.result){
             this.getAllWarehouses()
@@ -113,8 +120,14 @@ export class Warehouse implements OnInit {
     this.isSubmitted = true
     const formValue = this.warehouseForm.value as IWarehouseModel
     if (this.warehouseForm.valid) {
-      this.warehouseService.addWarehouse(formValue).subscribe({
-        next: (res: API_Response) => {
+      this.loading.set(true)
+      this.warehouseService.addWarehouse(formValue).pipe(
+        finalize(()=>{
+          this.loading.set(false)
+        }),
+        takeUntil(this.takeUntilSubject$)
+      ).subscribe({
+        next: (res:API_Response<IWarehouseList>) => {
           alert(res.message)
           if (res.result) {
             this.getAllWarehouses()
@@ -131,8 +144,14 @@ export class Warehouse implements OnInit {
     this.isSubmitted = true
     const formValue: IWarehouseModel = this.warehouseForm.value
     if (this.warehouseForm.valid) {
-      this.warehouseService.updateWarehouse(formValue, this.editWarehouseId).subscribe({
-        next: (res: API_Response) => {
+      this.loading.set(true)
+      this.warehouseService.updateWarehouse(formValue, this.editWarehouseId).pipe(
+        finalize(()=>{
+          this.loading.set(false)
+        }),
+        takeUntil(this.takeUntilSubject$)
+      ).subscribe({
+        next: (res: API_Response<IWarehouseList>) => {
           alert(res.message)
           if (res.result) {
             this.getAllWarehouses()
@@ -144,6 +163,11 @@ export class Warehouse implements OnInit {
         }
       })
     }
+  }
+
+  ngOnDestroy(): void {
+    this.takeUntilSubject$.next()
+    this.takeUntilSubject$.unsubscribe()
   }
 
 }

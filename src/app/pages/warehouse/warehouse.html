@@ -12,7 +12,7 @@
     </header>
 
     <section class="row g-2 g-lg-3 warehouse-statistics" aria-label="Warehouse statistics">
-        <div class="col-6 col-xl-3">
+        <div class="col-6 col-xl-4">
             <article class="warehouse-stat-card">
                 <span class="warehouse-stat-icon locations-stat-icon"><i class="fa-solid fa-warehouse"
                         aria-hidden="true"></i></span>
@@ -20,7 +20,7 @@
                         class="stat-caption">Across your network</span></span>
             </article>
         </div>
-        <div class="col-6 col-xl-3">
+        <div class="col-6 col-xl-4">
             <article class="warehouse-stat-card">
                 <span class="warehouse-stat-icon area-stat-icon"><i class="fa-solid fa-ruler-combined"
                         aria-hidden="true"></i></span>
@@ -28,20 +28,12 @@
                             ft</em></strong><span class="stat-caption">Total registered capacity</span></span>
             </article>
         </div>
-        <div class="col-6 col-xl-3">
+        <div class="col-6 col-xl-4">
             <article class="warehouse-stat-card">
                 <span class="warehouse-stat-icon cold-stat-icon"><i class="fa-solid fa-snowflake"
                         aria-hidden="true"></i></span>
                 <span class="warehouse-stat-copy"><small>Cold storage sites</small><strong>{{coldStorageSites}}</strong><span
                         class="stat-caption">Temperature-controlled</span></span>
-            </article>
-        </div>
-        <div class="col-6 col-xl-3">
-            <article class="warehouse-stat-card">
-                <span class="warehouse-stat-icon cities-stat-icon"><i class="fa-solid fa-location-dot"
-                        aria-hidden="true"></i></span>
-                <span class="warehouse-stat-copy"><small>Cities covered</small><strong>2</strong><span
-                        class="stat-caption">Active warehouse cities</span></span>
             </article>
         </div>
     </section>
@@ -208,12 +200,18 @@
 
                     <div class="warehouse-form-actions">
                         <button class="btn btn-theme-secondary btn-form-action" (click)="onReset()" type="button">Cancel</button>
-                        <button *ngIf="editWarehouseId===undefined else updateButton" class="btn btn-save btn-form-action" type="submit">
+                        <button [disabled]="loading()" *ngIf="editWarehouseId===undefined else updateButton" class="btn btn-save btn-form-action" type="submit">
                             <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save warehouse
+                            @if(loading()){
+                                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                            }
                         </button>
                         <ng-template #updateButton>
-                            <button class="btn btn-update btn-form-action" type="submit">
+                            <button [disabled]="loading()" class="btn btn-update btn-form-action" type="submit">
                                 <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Update
+                                @if(loading()){
+                                    <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                                }
                             </button>
                         </ng-template>
                     </div>

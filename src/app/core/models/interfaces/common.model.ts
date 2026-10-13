@@ -1,16 +1,14 @@
+import { IEmployeeList } from "./employee.model";
+
 export interface API_Response<T=any>{
     message:string;
     result:boolean;
     data:T
 }
 
-export interface IUserModel{
-    userId: number,
-    emailId: string,
-    password: string,
-    createdDate: string,
-    projectName: string,
-    fullName: string,
-    mobileNo: string,
-    extraId: any
+export interface ILoginResponse{
+    token: string,
+    tokenType: string,
+    expiresAtUtc: string,
+    employee:IEmployeeList
 }

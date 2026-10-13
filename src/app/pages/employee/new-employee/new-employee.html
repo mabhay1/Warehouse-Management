@@ -1,1 +1,127 @@
-<p>new-employee works!</p>
+<section class="employee-form-page">
+  <header class="employee-form-heading">
+    <div>
+      <div class="employee-form-breadcrumb">
+        <i class="fa-solid fa-house" aria-hidden="true"></i>
+        <span>/</span>
+        <a href="#">Employees</a>
+        <span>/</span>
+        <strong>Employee details</strong>
+      </div>
+      <h1>Employee details</h1>
+      <p>Add a team member and assign their warehouse access.</p>
+    </div>
+    <span class="employee-form-badge"><i class="fa-solid fa-user-plus" aria-hidden="true"></i> TEAM MEMBER</span>
+  </header>
+
+  <form class="employee-form-card">
+    <div class="employee-form-card-heading">
+      <span class="employee-form-icon"><i class="fa-regular fa-address-card" aria-hidden="true"></i></span>
+      <div>
+        <h2>Profile and access</h2>
+        <p>Enter employee contact, role, and login details.</p>
+      </div>
+    </div>
+
+    <div class="row g-3 employee-form-fields">
+      <div class="col-12 col-md-6">
+        <label for="employee-name" class="form-label">Employee name <span class="employee-required">*</span></label>
+        <div class="employee-form-input">
+          <i class="fa-regular fa-user" aria-hidden="true"></i>
+          <input [formField]="employeeForm.name" class="form-control" type="text" id="employee-name" placeholder="Enter name" autocomplete="name">
+        </div>
+        @if(employeeForm.name().touched()||employeeForm.name().dirty()||isSubmitted){
+          <p class="text-danger">{{employeeForm.name().errors()|getValidationError}}</p>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="employee-mobile" class="form-label">Mobile number <span class="employee-required">*</span></label>
+        <div class="employee-form-input">
+          <i class="fa-solid fa-phone" aria-hidden="true"></i>
+          <input [formField]="employeeForm.mobileNo" class="form-control" type="tel" id="employee-mobile" placeholder="Enter Mobile number" autocomplete="tel">
+        </div>
+        @if(employeeForm.mobileNo().touched()||employeeForm.mobileNo().dirty()||isSubmitted){
+          <p class="text-danger">{{employeeForm.mobileNo().errors()|getValidationError}}</p>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="employee-warehouse" class="form-label">Assigned warehouse <span class="employee-required">*</span></label>
+        <div class="employee-form-select">
+          <i class="fa-solid fa-warehouse" aria-hidden="true"></i>
+          <select [formField]="employeeForm.warehouseAssignedId" class="form-select" id="employee-warehouse">
+            <option value="" disabled selected>Select a warehouse</option>
+            @for (item of warehouseList$|async; track $index) {
+              <option [value]="item.id">{{item.title}} — {{item.city}}</option>
+            }
+          </select>
+        </div>
+        @if(employeeForm.warehouseAssignedId().touched()||employeeForm.warehouseAssignedId().dirty()||isSubmitted){
+          <p class="text-danger">{{employeeForm.warehouseAssignedId().errors()|getValidationError}}</p>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="employee-role" class="form-label">Role <span class="employee-required">*</span></label>
+        <div class="employee-form-select">
+          <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
+          <select [formField]="employeeForm.role" class="form-select" id="employee-role">
+            <option value="" disabled>Select a role</option>
+            <option selected>Admin</option>
+            <option>Manager</option>
+            <option>Employee</option>
+          </select>
+        </div>
+        @if(employeeForm.role().touched()||employeeForm.role().dirty()||isSubmitted){
+          <p class="text-danger">{{employeeForm.role().errors()|getValidationError}}</p>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="employee-username" class="form-label">Username <span class="employee-required">*</span></label>
+        <div class="employee-form-input">
+          <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+          <input [formField]="employeeForm.userName" class="form-control" type="text" id="employee-username" placeholder="Enter Username" autocomplete="username">
+        </div>
+        @if(employeeForm.userName().touched()||employeeForm.userName().dirty()||isSubmitted){
+          <p class="text-danger">{{employeeForm.userName().errors()|getValidationError}}</p>
+        }
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label for="employee-password" class="form-label">Password <span class="employee-required">*</span></label>
+        <div class="employee-form-input">
+          <i class="fa-solid fa-lock" aria-hidden="true"></i>
+          <input [formField]="employeeForm.password" class="form-control" type="password" id="employee-password" autocomplete="new-password">
+          <button class="employee-password-toggle" type="button" aria-label="Show password">
+            <i class="fa-regular fa-eye" aria-hidden="true"></i>
+          </button>
+        </div>
+        <small class="employee-field-hint">Use at least 8 characters.</small>
+        @if(employeeForm.password().touched()||employeeForm.password().dirty()||isSubmitted){
+          <p class="text-danger">{{employeeForm.password().errors()|getValidationError}}</p>
+        }
+      </div>
+    </div>
+
+    <div class="employee-form-footer">
+      <span><i class="fa-solid fa-asterisk" aria-hidden="true"></i> Required fields</span>
+      <div class="employee-form-actions">
+        <button class="btn btn-theme-secondary btn-form-action" type="button" (click)="onReset()">Cancel</button>
+        <button [disabled]="loading()" *ngIf="editEmployee===0" class="btn btn-save btn-form-action" type="button" (click)="onSaveEmployee()">
+          <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save employee
+          @if (loading()) {
+          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          }
+        </button>
+        <button [disabled]="loading()" *ngIf="editEmployee!==0" class="btn btn-update btn-form-action" type="button" (click)="onUpdateEmployee()">
+          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Update employee
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          }
+        </button>
+      </div>
+    </div>
+  </form>
+</section>

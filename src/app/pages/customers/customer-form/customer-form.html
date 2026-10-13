@@ -30,6 +30,9 @@
           <i class="fa-regular fa-user" aria-hidden="true"></i>
           <input class="form-control" formControlName="name" type="text" id="customer-name" name="name" value="test customer" autocomplete="organization">
         </div>
+        @if(customerForm.get('name')?.touched||customerForm.get('name')?.dirty||isSubmitted){
+          <p class="text-danger">{{customerForm.get('name')?.errors|getValidationError}}</p>
+        }
       </div>
 
       <div class="col-12 col-md-6">
@@ -38,6 +41,9 @@
           <i class="fa-solid fa-phone" aria-hidden="true"></i>
           <input class="form-control" formControlName="mobile" type="tel" id="customer-mobile" name="mobile" value="0909080000" autocomplete="tel">
         </div>
+        @if(customerForm.get('mobile')?.touched||customerForm.get('mobile')?.dirty||isSubmitted){
+          <p class="text-danger">{{customerForm.get('mobile')?.errors|getValidationError}}</p>
+        }
       </div>
 
       <div class="col-12 col-md-6">
@@ -46,6 +52,9 @@
           <i class="fa-regular fa-envelope" aria-hidden="true"></i>
           <input class="form-control" formControlName="email" type="email" id="customer-email" name="email" value="user@example.com" autocomplete="email">
         </div>
+        @if(customerForm.get('email')?.touched||customerForm.get('email')?.dirty||isSubmitted){
+          <p class="text-danger">{{customerForm.get('email')?.errors|getValidationError}}</p>
+        }
       </div>
 
       <div class="col-12 col-md-6">
@@ -70,13 +79,19 @@
       <div class="customer-form-actions">
         <button class="btn btn-theme-secondary btn-form-action" type="button" (click)="onReset()">Cancel</button>
         @if(editCustomerId===0){
-        <button class="btn btn-save btn-form-action" type="button" (click)="onSaveCustomer()">
+        <button [disabled]="loading()" class="btn btn-save btn-form-action" type="button" (click)="onSaveCustomer()">
           <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save customer
+          @if(loading()){
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          }
         </button>
       }
       @else {
-        <button class="btn btn-update btn-form-action" type="button" (click)="onUpdateCustomer()">
+        <button [disabled]="loading()" class="btn btn-update btn-form-action" type="button" (click)="onUpdateCustomer()">
           <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Update customer
+          @if(loading()){
+          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          }
         </button>
       }
       </div>

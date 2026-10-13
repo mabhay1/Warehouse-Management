@@ -1,0 +1,140 @@
+.employee-form-page {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.employee-form-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.employee-form-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  color: var(--color-muted);
+  font-size: 10px;
+}
+
+.employee-form-breadcrumb > i { color: var(--color-primary); }
+.employee-form-breadcrumb > span { color: #c2b7af; }
+.employee-form-breadcrumb a { color: var(--color-muted); text-decoration: none; }
+.employee-form-breadcrumb a:hover { color: var(--color-primary); }
+.employee-form-breadcrumb strong { color: var(--color-text); font-weight: 600; }
+
+.employee-form-heading h1 {
+  margin: 0 0 5px;
+  color: var(--color-text);
+  font-size: 23px;
+  font-weight: 650;
+  letter-spacing: -.6px;
+}
+
+.employee-form-heading p { margin: 0; color: var(--color-muted); font-size: 10px; }
+
+.employee-form-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--color-primary);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .7px;
+  white-space: nowrap;
+}
+
+.employee-form-card {
+  padding: 19px 21px 0;
+  border: 1px solid var(--color-border);
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(52 41 35 / 3%);
+}
+
+.employee-form-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.employee-form-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 9px;
+  background: #f7eee8;
+  color: var(--color-primary);
+  font-size: 14px;
+}
+
+.employee-form-card-heading h2 { margin: 0 0 3px; color: var(--color-text); font-size: 12px; font-weight: 650; }
+.employee-form-card-heading p { margin: 0; color: var(--color-muted); font-size: 9px; }
+.employee-form-fields { padding-bottom: 17px; }
+.employee-form-fields .form-label { margin-bottom: 5px; font-size: 9px; }
+.employee-required { color: var(--color-primary); }
+
+.employee-form-input,
+.employee-form-select { position: relative; }
+
+.employee-form-input > i,
+.employee-form-select > i {
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  z-index: 1;
+  color: #9a8e86;
+  font-size: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.employee-form-input .form-control,
+.employee-form-select .form-select {
+  min-height: 36px;
+  padding: 7px 10px 7px 31px;
+  font-size: 9px;
+}
+
+.employee-form-select .form-select { padding-right: 28px; }
+.employee-password-toggle { position: absolute; top: 50%; right: 8px; padding: 4px; border: 0; background: transparent; color: #94877f; transform: translateY(-50%); }
+.employee-password-toggle i { font-size: 10px; }
+.employee-form-input input[type="password"] { padding-right: 34px; }
+.employee-field-hint { display: block; margin-top: 4px; color: var(--color-muted); font-size: 8px; }
+
+.employee-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 -21px;
+  padding: 11px 21px;
+  border-top: 1px solid #f0ebe7;
+}
+
+.employee-form-footer > span { color: var(--color-muted); font-size: 8px; }
+.employee-form-footer > span i { margin-right: 4px; color: var(--color-primary); font-size: 7px; }
+.employee-form-actions { display: flex; align-items: center; gap: 7px; }
+.employee-form-actions .btn-form-action { min-height: 32px; font-size: 9px; }
+
+@media (max-width: 575.98px) {
+  .employee-form-heading { align-items: flex-start; }
+  .employee-form-heading h1 { font-size: 20px; }
+  .employee-form-badge { padding: 7px; font-size: 0; }
+  .employee-form-badge i { font-size: 11px; }
+  .employee-form-card { padding: 16px 14px 0; }
+  .employee-form-fields { padding-bottom: 14px; }
+  .employee-form-footer { align-items: flex-start; flex-direction: column; margin-right: -14px; margin-left: -14px; padding: 11px 14px; }
+  .employee-form-actions { width: 100%; justify-content: flex-end; flex-wrap: wrap; }
+}

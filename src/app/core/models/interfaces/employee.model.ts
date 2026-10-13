@@ -4,5 +4,7 @@ export interface IEmployeeList{
     userName: string,
     role: string,
     warehouseAssignedId: number,
-    warehouseName: string
+    warehouseName?: string,
+    mobileNo?:string,
+    warehouseCity?:string
 }
