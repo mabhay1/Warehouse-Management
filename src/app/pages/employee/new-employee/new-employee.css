@@ -127,7 +127,6 @@
 .employee-form-footer > span { color: var(--color-muted); font-size: 8px; }
 .employee-form-footer > span i { margin-right: 4px; color: var(--color-primary); font-size: 7px; }
 .employee-form-actions { display: flex; align-items: center; gap: 7px; }
-.employee-form-actions .btn-form-action { min-height: 32px; font-size: 9px; }
 
 @media (max-width: 575.98px) {
   .employee-form-heading { align-items: flex-start; }

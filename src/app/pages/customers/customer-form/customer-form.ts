@@ -46,7 +46,7 @@ export class CustomerForm implements OnDestroy {
     this.customerForm = this.fb.group({
       name: ['',[Validators.required,Validators.minLength(3)]],
       address: [''],
-      mobile: ['',[Validators.required,Validators.minLength(7),Validators.maxLength(15)]],
+      mobile: ['',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]],
       email: ['',[Validators.required,Validators.pattern(GLOBAL_CONSTANT.REGEX.EMAIL)]],
       gstNo: [''],
     })

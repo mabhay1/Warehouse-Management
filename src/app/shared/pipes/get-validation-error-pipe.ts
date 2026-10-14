@@ -8,7 +8,16 @@ export class GetValidationErrorPipe implements PipeTransform {
   transform(value: any): string | null {
     if (Array.isArray(value)) {
       for(let error of value){
-        // console.log(error.kind,error?.minLength)
+        console.log(error)
+        if(error.kind==='required'){
+          return GLOBAL_CONSTANT.VALIDATION_TEXT.REQUIRED
+        }
+        else if(error.kind==='minLength'){
+          return `Minumum ${error.minLength} characters required`
+        }
+        else if(error.kind==='maxLength'){
+          return `Maximum ${error.maxLength} characters are allowed`
+        }
         return error.message
       }
     }

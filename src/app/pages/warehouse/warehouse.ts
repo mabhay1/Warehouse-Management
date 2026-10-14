@@ -74,7 +74,7 @@ export class Warehouse implements OnInit,OnDestroy {
   }
 
   onDelete(id:number|undefined){
-    const isConfirm=confirm("Are you sure want to delete!!")
+    const isConfirm=confirm(GLOBAL_CONSTANT.DELETE_CONFIRMATION_MESSAGE)
     if(isConfirm){
       this.warehouseService.deleteWarehouse(id).pipe(
         takeUntil(this.takeUntilSubject$)

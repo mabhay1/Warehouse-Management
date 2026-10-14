@@ -7,9 +7,11 @@ import { AsyncPipe, NgFor } from '@angular/common';
 import { GetInitialsPipe } from '../../../shared/pipes/get-initials-pipe';
 import { API_Response } from '../../../core/models/interfaces/common.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MyButton } from '../../../shared/reusableComponents/my-button/my-button';
+import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 
 @Component({
-  imports: [RouterLink,NgFor,GetInitialsPipe],
+  imports: [RouterLink,NgFor,GetInitialsPipe,MyButton],
   selector: 'app-employee-list',
   styleUrl: './employee-list.css',
   templateUrl: './employee-list.html',
@@ -41,7 +43,7 @@ export class EmployeeList implements OnInit, OnDestroy {
   }
 
   onDelete(id:number){
-    const isConfirm=confirm("Are you sure want to delete")
+    const isConfirm=confirm(GLOBAL_CONSTANT.DELETE_CONFIRMATION_MESSAGE)
     if(isConfirm){
       this.employeeSrv.deleteEmployee(id).pipe(
         takeUntil(this.takeUntilSubject$)

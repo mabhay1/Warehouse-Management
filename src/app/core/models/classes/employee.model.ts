@@ -15,3 +15,7 @@ export class EmployeeModel{
         this.password=''
     }
 }
+
+export type EmployeeUpdatePayload=Omit<EmployeeModel,"password">&{
+    password:null
+}

@@ -7,6 +7,7 @@ import { GetInitialsPipe } from '../../../shared/pipes/get-initials-pipe';
 import { NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 
 @Component({
   imports: [GetInitialsPipe, NgIf, RouterLink],
@@ -46,7 +47,7 @@ export class CustomerList implements OnInit, OnDestroy {
     this.router.navigate(['/admin/customer-form', customer.id])
   }
   onDelete(id: number) {
-    const isConfirm = confirm("Are you sure want to delete!!")
+    const isConfirm = confirm(GLOBAL_CONSTANT.DELETE_CONFIRMATION_MESSAGE)
     if (isConfirm) {
       const subs =this.customerSrv.deleteCustomer(id).subscribe({
         next: (res:API_Response<any>) => {

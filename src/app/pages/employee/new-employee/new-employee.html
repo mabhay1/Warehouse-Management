@@ -67,10 +67,10 @@
         <div class="employee-form-select">
           <i class="fa-solid fa-user-shield" aria-hidden="true"></i>
           <select [formField]="employeeForm.role" class="form-select" id="employee-role">
-            <option value="" disabled>Select a role</option>
-            <option selected>Admin</option>
-            <option>Manager</option>
-            <option>Employee</option>
+            <option value="" disabled selected>Select a role</option>
+            @for (item of RoleList; track $index) {
+              <option>{{item}}</option>
+            }
           </select>
         </div>
         @if(employeeForm.role().touched()||employeeForm.role().dirty()||isSubmitted){
@@ -88,39 +88,30 @@
           <p class="text-danger">{{employeeForm.userName().errors()|getValidationError}}</p>
         }
       </div>
-
-      <div class="col-12 col-md-6">
-        <label for="employee-password" class="form-label">Password <span class="employee-required">*</span></label>
-        <div class="employee-form-input">
-          <i class="fa-solid fa-lock" aria-hidden="true"></i>
-          <input [formField]="employeeForm.password" class="form-control" type="password" id="employee-password" autocomplete="new-password">
-          <button class="employee-password-toggle" type="button" aria-label="Show password">
-            <i class="fa-regular fa-eye" aria-hidden="true"></i>
-          </button>
+      @if(editEmployee===0){
+        <div class="col-12 col-md-6">
+          <label for="employee-password" class="form-label">Password <span class="employee-required">*</span></label>
+          <div class="employee-form-input">
+            <i class="fa-solid fa-lock" aria-hidden="true"></i>
+            <input [formField]="employeeForm.password" class="form-control" type="password" id="employee-password" autocomplete="new-password">
+            <button class="employee-password-toggle" type="button" aria-label="Show password">
+              <i class="fa-regular fa-eye" aria-hidden="true"></i>
+            </button>
+          </div>
+          <small class="employee-field-hint">Use at least 8 characters.</small>
+          @if(employeeForm.password().touched()||employeeForm.password().dirty()||isSubmitted){
+            <p class="text-danger">{{employeeForm.password().errors()|getValidationError}}</p>
+          }
         </div>
-        <small class="employee-field-hint">Use at least 8 characters.</small>
-        @if(employeeForm.password().touched()||employeeForm.password().dirty()||isSubmitted){
-          <p class="text-danger">{{employeeForm.password().errors()|getValidationError}}</p>
-        }
-      </div>
+      }
     </div>
 
     <div class="employee-form-footer">
       <span><i class="fa-solid fa-asterisk" aria-hidden="true"></i> Required fields</span>
       <div class="employee-form-actions">
-        <button class="btn btn-theme-secondary btn-form-action" type="button" (click)="onReset()">Cancel</button>
-        <button [disabled]="loading()" *ngIf="editEmployee===0" class="btn btn-save btn-form-action" type="button" (click)="onSaveEmployee()">
-          <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save employee
-          @if (loading()) {
-          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-          }
-        </button>
-        <button [disabled]="loading()" *ngIf="editEmployee!==0" class="btn btn-update btn-form-action" type="button" (click)="onUpdateEmployee()">
-          <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Update employee
-          @if (loading()) {
-            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-          }
-        </button>
+        <app-my-button [btnType]="'Cancel'" (onBtnClick)="onReset()"></app-my-button>
+        <app-my-button *ngIf="editEmployee===0" (onBtnClick)="onSaveEmployee()" [btnType]="'Save'" [btnText]="saveUpdateBtnText" [isLoading]="loading()"></app-my-button>
+        <app-my-button *ngIf="editEmployee!==0" (onBtnClick)="onUpdateEmployee()" [btnText]="saveUpdateBtnText" [btnType]="'Update'" [isLoading]="loading()"></app-my-button>
       </div>
     </div>
   </form>

@@ -1,0 +1,29 @@
+<button [disabled]="isLoading" class="btn" type="button" [routerLink]="routePath"
+(click)="onClick()"
+ [ngClass]="{
+    'btn-form-action': btnType ==='Save' || btnType ==='Update' || btnType==='Cancel',
+    'btn-record-action':btnType==='Edit' || btnType==='Delete',
+    'btn-save': btnType ==='Save',
+    'btn-update': btnType==='Update',
+    'btn-theme-secondary': btnType==='Cancel',
+    'btn-record-edit': btnType==='Edit',
+    'btn-record-delete': btnType==='Delete'
+}">
+@if(btnType!=='Cancel'){
+    <i class="fa-regular" aria-hidden="true" [ngClass]="{
+    'fa-floppy-disk':btnType==='Save',
+    'fa-pen-to-square':btnType==='Update'||btnType==='Edit',
+    'fa-trash-can':btnType==='Delete'
+}"></i> 
+}
+@switch(btnType){
+    @case ('Save') { Save {{btnText}}}
+    @case ('Update') { Update {{btnText}}}
+    @case ('Cancel') {Cancel}
+    @case ('Edit') {<span>Edit</span>}
+    @case ('Delete') {<span>Delete</span>}
+}
+    @if (isLoading) {
+        <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+    }
+</button>

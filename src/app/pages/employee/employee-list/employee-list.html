@@ -46,8 +46,8 @@
           <span><small>Assigned warehouse</small><strong>{{employee.warehouseName}}</strong><small>{{employee.warehouseCity}}</small></span>
         </div>
         <div class="record-action-group employee-card-actions">
-          <button [routerLink]="'/admin/employee-form/'+employee.id" class="btn btn-record-action btn-record-edit" type="button"><i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span></button>
-          <button class="btn btn-record-action btn-record-delete" (click)="onDelete(employee.id)" type="button"><i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span></button>
+          <app-my-button [btnType]="'Edit'" [routePath]="'/admin/employee-form/'+employee.id"></app-my-button>
+          <app-my-button [btnType]="'Delete'" (onBtnClick)="onDelete(employee.id)"></app-my-button>
         </div>
       </article>
     </div>

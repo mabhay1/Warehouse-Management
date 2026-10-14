@@ -23,8 +23,15 @@ export const GLOBAL_CONSTANT={
             DELETE_EMPLOYEE:'DeleteEmployee/' 
         }
     },
+    ROLES:{
+        ADMIN:'Admin',
+        MANAGER:'Manager',
+        EMPLOYEE:'Employee',
+        SUPERADMIN:'SuperAdmin'
+    },
     LOCAL_LOGIN_KEY: 'WarehouseUser',
     LOCAL_LOGIN_TOKEN_KEY:'WarehouseToken',
+    DELETE_CONFIRMATION_MESSAGE:'Are you sure want to delete!!',
     REGEX:{
         EMAIL:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
         AADHAR_CARD:''
@@ -33,5 +40,10 @@ export const GLOBAL_CONSTANT={
         REQUIRED:'This is mandatory',
         EMAIL:'Provide Proper Email',
         AADHAR_CARD:'Aadhar Card should be of 12 digits'
+    },
+    BUTTON_TEXT:{
+        EMPLOYEE:'employee',
+        CUSTOMER:'customer',
+        WAREHOUSE:'warehouse'
     }
 }
