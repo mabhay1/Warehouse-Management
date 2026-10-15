@@ -209,6 +209,7 @@ export class Warehouse implements OnInit,OnDestroy {
   onEditSpace(spaceObj:IWarehouseSpaceList){
     this.currentSpaceId=spaceObj.id
     this.warehouseSpaceForm=structuredClone(spaceObj)
+    this.calculateTotalAvailableSpace()
   }
 
   onDeleteSpace(id:number){
@@ -270,7 +271,10 @@ export class Warehouse implements OnInit,OnDestroy {
   }
 
   calculateTotalAvailableSpace(){
-    const totalOcuppiedSpace=this.warehouseSpaceList().reduce((acc,current)=>acc+current.areaSqft,0)
+    let totalOcuppiedSpace=this.warehouseSpaceList().reduce((acc,current)=>acc+current.areaSqft,0)
+    if(this.currentSpaceId!=0){
+      totalOcuppiedSpace=this.warehouseSpaceList().filter(x=>x.id!==this.currentSpaceId).reduce((acc,curr)=>acc+curr.areaSqft,0)
+    }
     if(this.selectedWarehouse){
     this.totalAvailableSpace= this.selectedWarehouse.totalArea-totalOcuppiedSpace
     }
