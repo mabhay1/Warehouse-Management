@@ -1,3 +1,5 @@
+import { WarehouseSpaceModel } from "../classes/warehouseSpace.model"
+
 export interface IWarehouseModel {
     title: string,
     address1: string,
@@ -9,4 +11,8 @@ export interface IWarehouseModel {
 
 export interface IWarehouseList extends IWarehouseModel{
     id?:number
+}
+
+export interface IWarehouseSpaceList extends WarehouseSpaceModel{
+    id:number
 }

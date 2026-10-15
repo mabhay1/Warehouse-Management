@@ -1,15 +1,18 @@
-import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, effect, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { WarehouseService } from '../../core/services/warehouse/warehouse-service';
 import { API_Response } from '../../core/models/interfaces/common.model';
-import { IWarehouseList, IWarehouseModel } from '../../core/models/interfaces/warehouse.model';
-import { DecimalPipe, NgClass, NgFor, NgIf } from '@angular/common';
+import { IWarehouseList, IWarehouseModel, IWarehouseSpaceList } from '../../core/models/interfaces/warehouse.model';
+import { DecimalPipe, NgClass, NgFor, NgIf, UpperCasePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GLOBAL_CONSTANT } from '../../core/constants/global.constant';
 import { finalize, Subject, takeUntil } from 'rxjs';
+import { WarehouseSpaceModel } from '../../core/models/classes/warehouseSpace.model';
+import { MyButton } from '../../shared/reusableComponents/my-button/my-button';
+import { GetValidationErrorPipe } from '../../shared/pipes/get-validation-error-pipe';
 
 @Component({
-  imports: [ReactiveFormsModule,NgFor, NgClass,NgIf, DecimalPipe],
+  imports: [ReactiveFormsModule,NgFor, NgClass,NgIf, DecimalPipe, UpperCasePipe, FormsModule, MyButton, GetValidationErrorPipe],
   selector: 'app-warehouse',
   styleUrl: './warehouse.css',
   templateUrl: './warehouse.html',
@@ -19,20 +22,32 @@ export class Warehouse implements OnInit,OnDestroy {
   warehouseService=inject(WarehouseService)
 
   warehouseList:WritableSignal<IWarehouseList[]>=signal<IWarehouseList[]>([])
-  loading=signal<boolean>(false)
+  warehouseSpaceList=signal<IWarehouseSpaceList[]>([])
 
   editWarehouseId:number|undefined
   totalSQft:number=0
   coldStorageSites:number=0
+  currentSpaceId:number=0
 
   isSubmitted:boolean=false
+  loading=signal<boolean>(false)
 
   warehouseForm!:FormGroup
+  warehouseSpaceForm:WarehouseSpaceModel=new WarehouseSpaceModel()
+
+  @ViewChild('spaceModel') spaceModel!:ElementRef
+  selectedWarehouse!:IWarehouseList
+  totalAvailableSpace:number=0
 
   takeUntilSubject$:Subject<void>=new Subject<void>()
 
   constructor(){
     this.initializeForm()
+    effect(
+      ()=>{
+        this.calculateTotalAvailableSpace()
+      }
+    )
   }
 
   initializeForm() {
@@ -162,6 +177,102 @@ export class Warehouse implements OnInit,OnDestroy {
           alert(err.message)
         }
       })
+    }
+  }
+
+  openSpaceModelPopup(warehouseObj:IWarehouseList){
+    if(this.spaceModel!==undefined){
+      this.spaceModel.nativeElement.style.display="block"
+      this.selectedWarehouse=warehouseObj
+      this.warehouseSpaceForm.warehouseId=warehouseObj.id||0
+      this.getSpacesByWarehouseId()
+    }
+  }
+
+  closeSpaceModelPopup(){
+    if(this.spaceModel){
+      this.spaceModel.nativeElement.style.display="none"
+      this.onResetSpaceForm()
+    }
+  }
+
+  getSpacesByWarehouseId(){
+    this.warehouseService.getSpaceByWarehouseId(this.selectedWarehouse.id||0).subscribe({
+      next:(res:API_Response<IWarehouseSpaceList[]>)=>{
+        this.warehouseSpaceList.set(res.data)
+      },
+      error:(err:HttpErrorResponse)=>{
+      }
+    })
+  }
+
+  onEditSpace(spaceObj:IWarehouseSpaceList){
+    this.currentSpaceId=spaceObj.id
+    this.warehouseSpaceForm=structuredClone(spaceObj)
+  }
+
+  onDeleteSpace(id:number){
+    this.warehouseService.deleteSpace(id)?.subscribe({
+      next:(res:API_Response<any>)=>{
+        if(res.result){
+          alert('Space Removed successfully')
+          this.warehouseSpaceList.update(oldValue=>oldValue.filter(x=>x.id!==id))
+        }
+        else{
+          alert(res.message)
+        }
+      },
+      error:(err:HttpErrorResponse)=>{
+        alert(err.message)
+      }
+    })
+  }
+
+  onResetSpaceForm(){
+    this.currentSpaceId=0
+    this.warehouseSpaceForm =new WarehouseSpaceModel()
+    this.warehouseSpaceForm.warehouseId=this.selectedWarehouse.id||0
+  }
+
+  onSaveSpace(){
+    this.warehouseService.addSpace(this.warehouseSpaceForm).subscribe({
+      next:(res:API_Response<IWarehouseSpaceList>)=>{
+        if(res.result){
+          alert('Space added successfully')
+          this.warehouseSpaceList.update((oldValue)=>[...oldValue,res.data])
+          this.onResetSpaceForm()
+        }
+        else{
+          alert(res.message)
+        }
+      },
+      error:(err:HttpErrorResponse)=>{
+        alert(err.message)
+      }
+    })
+  }
+  onUpdateSpace(){
+    this.warehouseService.updateSpace(this.warehouseSpaceForm,this.currentSpaceId).subscribe({
+      next:(res:API_Response<IWarehouseSpaceList>)=>{
+        if(res.result){
+          alert('Space updated successfully')
+          this.warehouseSpaceList.update(oldValue=>oldValue.map(x=>x.id===this.currentSpaceId?res.data:x))
+          this.onResetSpaceForm()
+        }
+        else{
+          alert(res.message)
+        }
+      },
+      error:(err:HttpErrorResponse)=>{
+        alert(err.message)
+      }
+    })
+  }
+
+  calculateTotalAvailableSpace(){
+    const totalOcuppiedSpace=this.warehouseSpaceList().reduce((acc,current)=>acc+current.areaSqft,0)
+    if(this.selectedWarehouse){
+    this.totalAvailableSpace= this.selectedWarehouse.totalArea-totalOcuppiedSpace
     }
   }
 

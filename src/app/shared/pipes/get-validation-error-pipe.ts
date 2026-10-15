@@ -37,6 +37,12 @@ export class GetValidationErrorPipe implements PipeTransform {
             return GLOBAL_CONSTANT.VALIDATION_TEXT.EMAIL
           }
         }
+        else if(value?.['min']){
+          return `Value should be more than ${value?.['min'].min}`
+        }
+        else if(value?.['max']){
+          return `Value should be less than ${value?.['max'].max}`
+        }
       }
     }
     return null;

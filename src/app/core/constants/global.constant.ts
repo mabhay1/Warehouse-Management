@@ -13,7 +13,13 @@ export const GLOBAL_CONSTANT={
             GET_WAREHOUSE_BY_ID:'GetWarehouseById/',
             ADD_WAREHOUSE:'AddWarehouse',
             UPDATE_WAREHOUSE:'UpdateWarehouse/',
-            DELETE_WAREHOUSE:'DeleteWarehouse/'
+            DELETE_WAREHOUSE:'DeleteWarehouse/',
+            SPACE:{
+                GET_SPACES_BY_WAREHOUSE_ID:'GetAllSpaces?warehouseId=',
+                ADD_SPACE:'AddSpace',
+                UPDATE_SPACE:'UpdateSpace/',
+                DELETE_SPACE:'DeleteSpace/',
+            }
         },
         EMPLOYEE:{
             GET_ALL_EMPLOYEES:'GetAllEmployees',

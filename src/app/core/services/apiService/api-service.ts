@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 import { API_Response } from '../../models/interfaces/common.model';
 import { Observable } from 'rxjs';
+import { GLOBAL_CONSTANT } from '../../constants/global.constant';
 
 @Service()
 export class ApiService {
@@ -18,5 +19,12 @@ export class ApiService {
     }
     delete<T=any>(url:string):Observable<API_Response<T>>{
         return this.http.delete<API_Response<T>>(url)
+    }
+    deleteWithConfirmation(url:string):Observable<API_Response<any>>|null{
+        const isConfirm=confirm(GLOBAL_CONSTANT.DELETE_CONFIRMATION_MESSAGE)
+        if(isConfirm){
+            return this.http.delete<API_Response<any>>(url)
+        }
+        return null
     }
 }
