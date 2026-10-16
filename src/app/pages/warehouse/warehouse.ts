@@ -1,16 +1,17 @@
 import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WarehouseService } from '../../core/services/warehouse/warehouse-service';
 import { API_Response } from '../../core/models/interfaces/common.model';
 import { IWarehouseList, IWarehouseModel } from '../../core/models/interfaces/warehouse.model';
-import { DecimalPipe, NgClass, NgFor, NgIf, UpperCasePipe } from '@angular/common';
+import { DecimalPipe, UpperCasePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { GLOBAL_CONSTANT } from '../../core/constants/global.constant';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { WarehouseSpace } from './components/warehouse-space/warehouse-space';
+import { COMMON_IMPORTS } from '../../core/constants/commonImports.constant';
 
 @Component({
-  imports: [ReactiveFormsModule,NgFor, NgClass,NgIf, DecimalPipe, UpperCasePipe, FormsModule, WarehouseSpace],
+  imports: [ DecimalPipe, UpperCasePipe, WarehouseSpace,COMMON_IMPORTS.FORMS],
   selector: 'app-warehouse',
   styleUrl: './warehouse.css',
   templateUrl: './warehouse.html',
@@ -20,23 +21,19 @@ export class Warehouse implements OnInit,OnDestroy {
   warehouseService=inject(WarehouseService)
 
   warehouseList:WritableSignal<IWarehouseList[]>=signal<IWarehouseList[]>([])
-  // warehouseSpaceList=signal<IWarehouseSpaceList[]>([])
 
   editWarehouseId:number|undefined
   totalSQft:number=0
   coldStorageSites:number=0
-  // currentSpaceId:number=0
 
   isSubmitted:boolean=false
   loading=signal<boolean>(false)
 
   warehouseForm!:FormGroup
-  // warehouseSpaceForm:WarehouseSpaceModel=new WarehouseSpaceModel()
 
   @ViewChild('spaceModel') spaceModel!:ElementRef
   isOpenModel:boolean=false
   selectedWarehouse?:IWarehouseList
-  // totalAvailableSpace:number=0
 
   takeUntilSubject$:Subject<void>=new Subject<void>()
 
@@ -83,9 +80,7 @@ export class Warehouse implements OnInit,OnDestroy {
   }
 
   onDelete(id:number|undefined){
-    const isConfirm=confirm(GLOBAL_CONSTANT.DELETE_CONFIRMATION_MESSAGE)
-    if(isConfirm){
-      this.warehouseService.deleteWarehouse(id).pipe(
+    this.warehouseService.deleteWarehouse(id)?.pipe(
         takeUntil(this.takeUntilSubject$)
       ).subscribe({
         next:(res:API_Response<any>)=>{
@@ -98,7 +93,6 @@ export class Warehouse implements OnInit,OnDestroy {
           alert(err.message)
         }
       })
-    }
   }
 
   onReset(){

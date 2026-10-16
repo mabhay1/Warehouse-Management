@@ -3,19 +3,17 @@ import { finalize, map, Observable } from 'rxjs';
 import { IWarehouseList } from '../../../core/models/interfaces/warehouse.model';
 import { WarehouseService } from '../../../core/services/warehouse/warehouse-service';
 import { API_Response } from '../../../core/models/interfaces/common.model';
-import { AsyncPipe, NgIf } from '@angular/common';
 import { EmployeeModel, EmployeeUpdatePayload } from '../../../core/models/classes/employee.model';
-import { applyWhen, form, FormField, maxLength, minLength, required, schema } from '@angular/forms/signals';
+import { applyWhen, form, maxLength, minLength, required, schema } from '@angular/forms/signals';
 import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 import { EmployeeService } from '../../../core/services/employee/employee-service';
 import { IEmployeeList } from '../../../core/models/interfaces/employee.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GetValidationErrorPipe } from '../../../shared/pipes/get-validation-error-pipe';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MyButton } from '../../../shared/reusableComponents/my-button/my-button';
+import { COMMON_IMPORTS } from '../../../core/constants/commonImports.constant';
 
 @Component({
-  imports: [AsyncPipe,FormField,NgIf, GetValidationErrorPipe,MyButton],
+  imports: [COMMON_IMPORTS.FORMS],
   selector: 'app-new-employee',
   styleUrl: './new-employee.css',
   templateUrl: './new-employee.html',

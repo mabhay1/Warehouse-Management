@@ -15,7 +15,7 @@ import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
   styleUrl: './customer-list.css',
   templateUrl: './customer-list.html',
 })
-export class CustomerList implements OnInit, OnDestroy {
+export class CustomerList implements OnInit,OnDestroy {
 
   isTableView: boolean = true
 
@@ -47,9 +47,7 @@ export class CustomerList implements OnInit, OnDestroy {
     this.router.navigate(['/admin/customer-form', customer.id])
   }
   onDelete(id: number) {
-    const isConfirm = confirm(GLOBAL_CONSTANT.DELETE_CONFIRMATION_MESSAGE)
-    if (isConfirm) {
-      const subs =this.customerSrv.deleteCustomer(id).subscribe({
+     const subs= this.customerSrv.deleteCustomer(id)?.subscribe({
         next: (res:API_Response<any>) => {
           alert(res.message)
           if (res.result) {
@@ -60,13 +58,16 @@ export class CustomerList implements OnInit, OnDestroy {
           alert(err.message)
         }
       })
-      this.subscriptionArray.push(subs)
+      if(subs!==undefined){
+        this.subscriptionArray.push(subs)
+      }
     }
-  }
 
-  ngOnDestroy(): void {
-    this.subscriptionArray.forEach((subs)=>{
-      subs.unsubscribe()
-    })
-  }
+    ngOnDestroy(): void {
+      this.subscriptionArray.forEach((subs)=>{
+        subs.unsubscribe()
+      })
+    }
+
 }
+

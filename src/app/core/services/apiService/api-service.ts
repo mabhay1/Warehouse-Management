@@ -17,13 +17,10 @@ export class ApiService {
     put<T,B>(url:string,body:B):Observable<API_Response<T>>{
         return this.http.put<API_Response<T>>(url,body)
     }
-    delete<T=any>(url:string):Observable<API_Response<T>>{
-        return this.http.delete<API_Response<T>>(url)
-    }
-    deleteWithConfirmation(url:string):Observable<API_Response<any>>|null{
+    delete<T=any>(url:string):Observable<API_Response<T>>|null{
         const isConfirm=confirm(GLOBAL_CONSTANT.DELETE_CONFIRMATION_MESSAGE)
         if(isConfirm){
-            return this.http.delete<API_Response<any>>(url)
+            return this.http.delete<API_Response<T>>(url)
         }
         return null
     }

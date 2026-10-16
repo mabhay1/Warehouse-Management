@@ -20,7 +20,7 @@ export class CustomerService {
     updateCustomer(obj:ICustomerModel,id:number):Observable<API_Response<ICustomerList>>{
         return this.apiSrv.put<ICustomerList,ICustomerModel>(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.CUSTOMERS.UPDATE_CUSTOMER+id,obj)
     }
-    deleteCustomer(id:number){
+    deleteCustomer(id:number):Observable<API_Response<any>> | null{
         return this.apiSrv.delete(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.CUSTOMERS.DELETE_CUSTOMER+id)
     }
     getCustomerById(id:number):Observable<API_Response<ICustomerList>>{

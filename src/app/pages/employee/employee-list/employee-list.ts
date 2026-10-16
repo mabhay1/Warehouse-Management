@@ -1,14 +1,13 @@
 import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { IEmployeeList } from '../../../core/models/interfaces/employee.model';
 import { EmployeeService } from '../../../core/services/employee/employee-service';
-import { AsyncPipe, NgFor } from '@angular/common';
+import { NgFor } from '@angular/common';
 import { GetInitialsPipe } from '../../../shared/pipes/get-initials-pipe';
 import { API_Response } from '../../../core/models/interfaces/common.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MyButton } from '../../../shared/reusableComponents/my-button/my-button';
-import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 
 @Component({
   imports: [RouterLink,NgFor,GetInitialsPipe,MyButton],
@@ -43,9 +42,7 @@ export class EmployeeList implements OnInit, OnDestroy {
   }
 
   onDelete(id:number){
-    const isConfirm=confirm(GLOBAL_CONSTANT.DELETE_CONFIRMATION_MESSAGE)
-    if(isConfirm){
-      this.employeeSrv.deleteEmployee(id).pipe(
+    this.employeeSrv.deleteEmployee(id)?.pipe(
         takeUntil(this.takeUntilSubject$)
       ).subscribe({
         next:(res:API_Response<any>)=>{
@@ -62,7 +59,6 @@ export class EmployeeList implements OnInit, OnDestroy {
         }
       })
     }
-  }
 
   ngOnDestroy(): void {
     this.takeUntilSubject$.next()

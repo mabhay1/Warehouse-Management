@@ -21,7 +21,7 @@ export class EmployeeService {
     updateEmployee(obj:EmployeeUpdatePayload,id:number):Observable<API_Response<IEmployeeList>>{
         return this.apiSrv.put<IEmployeeList,EmployeeUpdatePayload>(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.EMPLOYEE.UPDATE_EMPLOYEE+id,obj)
     }
-    deleteEmployee(id:number):Observable<API_Response<any>>{
+    deleteEmployee(id:number):Observable<API_Response<any>>|null{
         return this.apiSrv.delete(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.EMPLOYEE.DELETE_EMPLOYEE+id)
     }
     getEmployeeById(id:number):Observable<API_Response<IEmployeeList>>{

@@ -21,7 +21,7 @@ export class WarehouseService {
     updateWarehouse(obj:IWarehouseModel,id:number|undefined):Observable<API_Response<IWarehouseList>>{
         return this.apiSrv.put<IWarehouseList,IWarehouseModel>(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.WAREHOUSE.UPDATE_WAREHOUSE+id,obj)
     }
-    deleteWarehouse(id:number|undefined):Observable<API_Response<any>>{
+    deleteWarehouse(id:number|undefined):Observable<API_Response<any>>|null{
         return this.apiSrv.delete(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.WAREHOUSE.DELETE_WAREHOUSE+id)
     }
     getWarehouseById(id:number):Observable<API_Response<IWarehouseList>>{
@@ -42,6 +42,6 @@ export class WarehouseService {
     }
 
     deleteSpace(id:number):Observable<API_Response<any>>|null{
-        return this.apiSrv.deleteWithConfirmation(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.WAREHOUSE.SPACE.DELETE_SPACE+id)
+        return this.apiSrv.delete(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.WAREHOUSE.SPACE.DELETE_SPACE+id)
     }
 }
