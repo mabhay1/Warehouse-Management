@@ -1,0 +1,141 @@
+<div class="warehouse-spaces-body">
+    <section class="row g-2 warehouse-space-capacity-summary" aria-label="Warehouse space capacity">
+        <div class="col-6">
+            <article class="warehouse-space-capacity-card">
+                <span class="warehouse-space-capacity-icon total-capacity-icon">
+                    <i class="fa-solid fa-warehouse" aria-hidden="true"></i>
+                </span>
+                <span class="warehouse-space-capacity-copy">
+                    <small>Total warehouse area</small>
+                    <strong>{{selectedWarehouse?.totalArea|number:'1.0-0'}} <em>sq ft</em></strong>
+                </span>
+            </article>
+        </div>
+        <div class="col-6">
+            <article class="warehouse-space-capacity-card available-capacity-card">
+                <span class="warehouse-space-capacity-icon available-area-icon">
+                    <i class="fa-solid fa-up-right-and-down-left-from-center" aria-hidden="true"></i>
+                </span>
+                <span class="warehouse-space-capacity-copy">
+                    <small>Available to assign</small>
+                    <strong>{{totalAvailableSpace|number:'1.0-0'}} <em>sq ft</em></strong>
+                </span>
+            </article>
+        </div>
+    </section>
+    <div class="row g-3">
+        <div class="col-12 col-lg-7">
+            <section class="warehouse-spaces-list" aria-labelledby="warehouse-spaces-list-title">
+                <div class="warehouse-spaces-section-heading">
+                    <div>
+                        <h3 id="warehouse-spaces-list-title">Spaces in this warehouse</h3>
+                        <p>Available storage areas and their current status.</p>
+                    </div>
+                    <span class="warehouse-spaces-count">{{warehouseSpaceList().length}} space</span>
+                </div>
+                <div class="table-responsive">
+                    <table class="table warehouse-spaces-table align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th scope="col">SPACE</th>
+                                <th scope="col">AREA</th>
+                                <th scope="col">DESCRIPTION</th>
+                                <th scope="col">STATUS</th>
+                                <th scope="col">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (item of warehouseSpaceList(); track $index) {
+                            <tr>
+                                <td><strong>{{item.name}}</strong></td>
+                                <td><strong class="warehouse-space-area">{{item.areaSqft}}</strong><small>sq ft</small></td>
+                                <td>{{item.description}}</td>
+                                <td><span class="warehouse-space-status"><i class="fa-solid fa-circle"
+                                            aria-hidden="true"></i> {{item.isActive?'Active':'InActive'}}</span></td>
+                                <td>
+                                    <div class="record-action-group warehouse-space-row-actions">
+                                        <button class="btn btn-record-action btn-record-edit" type="button" (click)="onEditSpace(item)"
+                                            aria-label="Edit Room No 1">
+                                            <i class="fa-regular fa-pen-to-square"
+                                                aria-hidden="true"></i><span>Edit</span>
+                                        </button>
+                                        <button class="btn btn-record-action btn-record-delete" type="button" (click)="onDeleteSpace(item.id)"
+                                            aria-label="Delete Room No 1">
+                                            <i class="fa-regular fa-trash-can"
+                                                aria-hidden="true"></i><span>Delete</span>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                            @empty {
+                                <tr>
+                                    <td colspan="5" class="text-center">No Space Added</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="warehouse-spaces-list-note">
+                    <i class="fa-regular fa-lightbulb" aria-hidden="true"></i>
+                    Space area is part of the warehouse's total rentable capacity.
+                </div>
+            </section>
+        </div>
+
+        <div class="col-12 col-lg-5">
+            <form class="warehouse-space-form" #spaceForm="ngForm">
+                <div class="warehouse-spaces-section-heading">
+                    <div>
+                        <h3>Add a space</h3>
+                        <p>Enter the details for a rentable area.</p>
+                    </div>
+                </div>
+
+                <div class="row g-2 warehouse-space-fields">
+                    <div class="col-7">
+                        <label for="space-name" class="form-label">Space name <span
+                                class="warehouse-space-required">*</span></label>
+                        <input #spaceName="ngModel" [(ngModel)]="warehouseSpaceForm.name" name="name" class="form-control" type="text" id="space-name"
+                            placeholder="e.g. Room No 2" required>
+                        <p class="text-danger" *ngIf="spaceName.touched||spaceName.dirty">{{spaceName.errors|getValidationError}}</p>  
+                    </div>
+                    <div class="col-5">
+                        <label for="space-area" class="form-label">Area <span
+                                class="warehouse-space-required">*</span></label>
+                        <div class="input-group warehouse-space-area-input">
+                            <input #area = "ngModel" [(ngModel)]="warehouseSpaceForm.areaSqft" name="areaSqft" class="form-control" type="number" id="space-area"
+                                placeholder="e.g. 500" required min="1" [max]="totalAvailableSpace">
+                            <span class="input-group-text">sq ft</span>
+                        </div>
+                        <p class="text-danger" *ngIf="area.touched||area.dirty">{{area.errors|getValidationError}}</p>
+                    </div>
+                    <div class="col-12">
+                        <label for="space-description" class="form-label">Description</label>
+                        <textarea class="form-control" [(ngModel)]="warehouseSpaceForm.description" name="description" id="space-description" rows="2"
+                            placeholder="Add details about this space"></textarea>
+                    </div>
+                </div>
+                <div class="warehouse-space-active-option">
+                    <div>
+                        <strong>Active space</strong>
+                        <small>Make this space available for bookings.</small>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input [(ngModel)]="warehouseSpaceForm.isActive" name="isActive" class="form-check-input" type="checkbox" role="switch" id="space-active">
+                        <label class="visually-hidden" for="space-active">Active space</label>
+                    </div>
+                </div>
+                <div class="warehouse-space-form-actions">
+                    <app-my-button [btnType]="'Cancel'" [btnText]="'Reset'" (onBtnClick)="onResetSpaceForm(spaceForm)"></app-my-button>
+                    @if(currentSpaceId===0){
+                        <app-my-button [btnType]="'Save'" [btnText]="'space'" (onBtnClick)="onSaveSpace(spaceForm)"></app-my-button>
+                    }
+                    @else {
+                        <app-my-button [btnType]="'Update'" [btnText]="'space'" (onBtnClick)="onUpdateSpace(spaceForm)"></app-my-button>
+                    }
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

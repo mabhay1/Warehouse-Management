@@ -6,6 +6,7 @@ import { GLOBAL_CONSTANT } from '../../core/constants/global.constant';
 })
 export class GetValidationErrorPipe implements PipeTransform {
   transform(value: any): string | null {
+    // for signal forms
     if (Array.isArray(value)) {
       for(let error of value){
         console.log(error)
@@ -21,6 +22,7 @@ export class GetValidationErrorPipe implements PipeTransform {
         return error.message
       }
     }
+    // for template/ reactive forms
     else {
       if (value !== null) {
         if (value?.['required']) {

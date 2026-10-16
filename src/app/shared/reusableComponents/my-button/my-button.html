@@ -19,7 +19,7 @@
 @switch(btnType){
     @case ('Save') { Save {{btnText}}}
     @case ('Update') { Update {{btnText}}}
-    @case ('Cancel') {Cancel}
+    @case ('Cancel') {{{btnText?btnText:'Cancel'}}}
     @case ('Edit') {<span>Edit</span>}
     @case ('Delete') {<span>Delete</span>}
 }
