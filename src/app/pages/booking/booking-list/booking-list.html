@@ -1,0 +1,108 @@
+<section class="booking-list-page">
+  <header class="booking-list-heading">
+    <div>
+      <nav class="booking-list-breadcrumb" aria-label="Breadcrumb">
+        <i class="fa-solid fa-house" aria-hidden="true"></i>
+        <span>/</span>
+        <strong>Bookings</strong>
+      </nav>
+      <h1>Booking management</h1>
+      <p>Review customer reservations, warehouse spaces, dates, and charges.</p>
+    </div>
+    <button class="btn btn-save btn-form-action booking-create-button" (click)="openBookingForm(0)">
+      <i class="fa-solid fa-plus" aria-hidden="true"></i> New booking
+    </button>
+  </header>
+
+  <section class="booking-list-panel" aria-labelledby="booking-list-title">
+    <div class="booking-list-panel-heading">
+      <div class="booking-list-title-group">
+        <span class="booking-list-title-icon"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i></span>
+        <div>
+          <h2 id="booking-list-title">Booking register</h2>
+          <p>Customer and space reservation details</p>
+        </div>
+      </div>
+      <span class="booking-list-count">{{bookingList().length}} booking</span>
+    </div>
+
+    <div class="booking-list-toolbar">
+      <label class="booking-list-search">
+        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        <input class="form-control" type="search" placeholder="Search customer, warehouse, or space"
+          aria-label="Search bookings">
+      </label>
+      <span class="booking-list-timezone"><i class="fa-regular fa-clock" aria-hidden="true"></i> Dates shown in local time</span>
+    </div>
+
+    <div class="table-responsive booking-table-wrap">
+      <table class="table booking-table align-middle mb-0">
+        <thead>
+          <tr>
+            <th scope="col">CUSTOMER</th>
+            <th scope="col">WAREHOUSE</th>
+            <th scope="col">SPACE</th>
+            <th scope="col">BOOKING PERIOD</th>
+            <th scope="col">AREA</th>
+            <th scope="col">TOTAL</th>
+            <th scope="col">BOOKED ON / BY</th>
+            <th scope="col">ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let booking of bookingList(); let srno=index">
+            <td>
+              <div class="booking-customer-cell">
+                <span class="booking-table-avatar"><i class="fa-regular fa-user" aria-hidden="true"></i></span>
+                <span>
+                  <strong>{{booking.customerName}}</strong>
+                  <small><i class="fa-solid fa-phone" aria-hidden="true"></i> {{booking.customerMobile}}</small>
+                  <small><i class="fa-regular fa-envelope" aria-hidden="true"></i> {{booking.customerEmail}}</small>
+                </span>
+              </div>
+            </td>
+            <td>
+              <span class="booking-warehouse-cell">
+                <strong>{{booking.warehouseName}}</strong>
+                <small><i class="fa-solid fa-location-dot" aria-hidden="true"></i> {{booking.warehouseCity}}</small>
+              </span>
+            </td>
+            <td><span class="booking-space-name"><i class="fa-solid fa-border-all" aria-hidden="true"></i> {{booking.spaceName}}</span></td>
+            <td>
+              <span class="booking-period-cell">
+                <strong>{{booking.bookingFromDate|date:'dd MMM yyyy'}} — {{booking.bookingTillDate|date:'dd MMM yyyy'}}</strong>
+                <small><i class="fa-regular fa-clock" aria-hidden="true"></i> {{booking.bookingFromDate|date:'hh:mm a'}} — {{booking.bookingTillDate|date:'hh:mm a'}}</small>
+              </span>
+            </td>
+            <td><strong class="booking-area-value">{{booking.sqftAreaNeeded}}</strong><small class="booking-area-unit">sq ft</small></td>
+            <td><strong class="booking-amount-value">₹{{booking.totalAmount|number:'1.2-2'}}</strong></td>
+            <td>
+              <span class="booking-created-cell">
+                <strong>{{booking.bookingDate|date:'dd MMM yyyy'}}</strong>
+                <small>{{booking.bookingDate|date:'hh:mm a'}}</small>
+                <small>By {{booking.bookingDoneByName}}</small>
+              </span>
+            </td>
+            <td>
+              <div class="record-action-group booking-row-actions">
+                <button class="btn btn-record-action btn-record-edit" (click)="openBookingForm(booking.id)"
+                  aria-label="Edit booking for customer1">
+                  <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span>
+                </button>
+                <button class="btn btn-record-action btn-record-delete" type="button" (click)="onDeleteBooking(booking.id)"
+                  aria-label="Delete booking for customer1">
+                  <i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <footer class="booking-list-footer">
+      <span>Showing <strong>1</strong> booking</span>
+      <span><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Dates and amounts are shown in local format.</span>
+    </footer>
+  </section>
+</section>

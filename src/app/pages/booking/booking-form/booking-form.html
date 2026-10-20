@@ -1,0 +1,124 @@
+<section class="booking-form-page">
+  <header class="booking-form-heading">
+    <div>
+      <nav class="booking-form-breadcrumb" aria-label="Breadcrumb">
+        <i class="fa-solid fa-house" aria-hidden="true"></i>
+        <span>/</span>
+        <a href="#">Bookings</a>
+        <span>/</span>
+        <strong>New booking</strong>
+      </nav>
+      <h1>Create a booking</h1>
+      <p>Reserve warehouse space for a customer and set the booking period.</p>
+    </div>
+    <span class="booking-form-badge"><i class="fa-regular fa-calendar-check" aria-hidden="true"></i> NEW RESERVATION</span>
+  </header>
+
+  <form class="booking-form-card" [formGroup]="bookingForm">
+    <div class="booking-form-card-heading">
+      <span class="booking-form-card-icon"><i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i></span>
+      <div>
+        <h2>Booking details</h2>
+        <p>Choose the customer, location, space, and booking dates.</p>
+      </div>
+    </div>
+
+    <div class="row g-3 booking-form-layout">
+      <div class="col-12">
+        <div class="row g-2 booking-form-fields">
+          <div class="col-12">
+            <label for="booking-customer" class="form-label">Customer <span class="booking-required">*</span></label>
+            <div class="booking-select-wrap">
+              <i class="fa-regular fa-user" aria-hidden="true"></i>
+              <select class="form-select" formControlName="customerId" id="booking-customer" name="customerId">
+                <option value="" disabled>Select a customer</option>
+                @for (item of customerList$|async; track $index) {
+                  <option [value]="item.id">{{item.name}} · {{item.mobile}}</option>
+                }
+              </select>
+            </div>
+            <small class="booking-field-hint">Choose the customer who will rent this space.</small>
+            <ng-component *ngTemplateOutlet="validationError; context:{control:bookingForm.controls['customerId']}"></ng-component>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="booking-warehouse" class="form-label">Warehouse <span class="booking-required">*</span></label>
+            <div class="booking-select-wrap">
+              <i class="fa-solid fa-warehouse" aria-hidden="true"></i>
+              <select class="form-select" formControlName="warehouseId" id="booking-warehouse" name="warehouseId">
+                <option value="" disabled>Select a warehouse</option>
+                @for (item of warehouseList$|async; track $index) {
+                  <option [value]="item.id">{{item.title}} · {{item.city}}</option>
+                }
+              </select>
+            </div>
+            <ng-component *ngTemplateOutlet="validationError; context:{control:bookingForm.controls['warehouseId']}"></ng-component>
+          </div>
+
+            <div class="col-12 col-md-6">
+              <label for="booking-space" class="form-label">Space <span class="booking-required">*</span></label>
+              <div class="booking-select-wrap">
+                <i class="fa-solid fa-border-all" aria-hidden="true"></i>
+                <select formControlName="spaceId" class="form-select" id="booking-space" name="spaceId">
+                  <option value="" disabled>Select a space</option>
+                  @for (item of warehouseSpaceList(); track $index) {
+                    <option [value]="item.id" selected>{{item.name}} · {{item.areaSqft}} sq ft</option>
+                  }
+                </select>
+              </div>
+              <small class="booking-field-hint">Spaces shown for the selected warehouse.</small>
+              <ng-component *ngTemplateOutlet="validationError; context:{control:bookingForm.controls['spaceId']}"></ng-component>
+            </div>
+
+          <div class="col-12 col-md-6">
+            <label for="booking-from" class="form-label">Booking from <span class="booking-required">*</span></label>
+            <div class="booking-input-wrap">
+              <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+              <input class="form-control" formControlName="bookingFromDate" type="datetime-local" id="booking-from" name="bookingFromDate">
+            </div>
+            <ng-component *ngTemplateOutlet="validationError; context:{control:bookingForm.controls['bookingFromDate']}"></ng-component>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="booking-till" class="form-label">Booking till <span class="booking-required">*</span></label>
+            <div class="booking-input-wrap">
+              <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+              <input class="form-control" formControlName="bookingTillDate" type="datetime-local" id="booking-till" name="bookingTillDate">
+            </div>
+            <ng-component *ngTemplateOutlet="validationError; context:{control:bookingForm.controls['bookingTillDate']}"></ng-component>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <label for="booking-total" class="form-label">Total amount <span class="booking-required">*</span></label>
+            <div class="input-group booking-amount-input">
+              <span class="input-group-text">₹</span>
+              <input class="form-control" type="number" formControlName="totalAmount" id="booking-total" name="totalAmount"
+                placeholder="Enter total amount">
+            </div>
+            <small class="booking-field-hint">Final amount for the selected booking period.</small>
+            <ng-component *ngTemplateOutlet="validationError; context:{control:bookingForm.controls['totalAmount']}"></ng-component>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="booking-form-footer">
+      <span><i class="fa-solid fa-asterisk" aria-hidden="true"></i> Required fields</span>
+      <div class="booking-form-actions">
+        <app-my-button [btnType]="'Cancel'" (onBtnClick)="onReset()"></app-my-button>
+        @if(currentBookingId===0){
+          <app-my-button [btnType]="'Save'" [btnText]="'booking'" [isLoading]="loading()" (onBtnClick)="onSaveForm()"></app-my-button>
+        }
+        @else {
+          <app-my-button [btnType]="'Update'" [btnText]="'booking'" [isLoading]="loading()" (onBtnClick)="onUpdateForm()"></app-my-button>
+        }
+      </div>
+    </footer>
+  </form>
+</section>
+
+<ng-template #validationError let-control="control">
+  @if(control.touched || control.dirty || isSubmitted){
+    <p class="text-danger">{{control.errors|getValidationError}}</p>
+  }
+</ng-template>

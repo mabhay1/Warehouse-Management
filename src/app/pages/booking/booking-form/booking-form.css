@@ -1,0 +1,161 @@
+.booking-form-page {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.booking-form-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+
+.booking-form-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+  color: var(--color-muted);
+  font-size: 10px;
+}
+
+.booking-form-breadcrumb > i { color: var(--color-primary); }
+.booking-form-breadcrumb > span { color: #c2b7af; }
+.booking-form-breadcrumb a { color: var(--color-muted); text-decoration: none; }
+.booking-form-breadcrumb a:hover { color: var(--color-primary); }
+.booking-form-breadcrumb strong { color: var(--color-text); font-weight: 600; }
+
+.booking-form-heading h1 {
+  margin: 0 0 5px;
+  color: var(--color-text);
+  font-size: 23px;
+  font-weight: 650;
+  letter-spacing: -.6px;
+}
+
+.booking-form-heading p { margin: 0; color: var(--color-muted); font-size: 10px; }
+
+.booking-form-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border);
+  border-radius: 7px;
+  background: #fff;
+  color: var(--color-primary);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: .7px;
+  white-space: nowrap;
+}
+
+.booking-form-card {
+  padding: 17px 19px 0;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 3px 12px rgb(52 41 35 / 3%);
+}
+
+.booking-form-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.booking-form-card-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 9px;
+  background: #f7eee8;
+  color: var(--color-primary);
+  font-size: 14px;
+}
+
+.booking-form-card-heading h2 {
+  margin: 0 0 3px;
+  color: var(--color-text);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.booking-form-card-heading p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 9px;
+}
+
+.booking-form-layout { align-items: stretch; }
+.booking-form-fields .form-label { margin-bottom: 4px; font-size: 9px; }
+.booking-required { color: var(--color-primary); }
+
+.booking-select-wrap,
+.booking-input-wrap { position: relative; }
+
+.booking-select-wrap > i,
+.booking-input-wrap > i {
+  position: absolute;
+  top: 50%;
+  left: 11px;
+  z-index: 1;
+  color: #9a8e86;
+  font-size: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.booking-select-wrap .form-select,
+.booking-input-wrap .form-control {
+  min-height: 36px;
+  padding: 7px 10px 7px 31px;
+  font-size: 9px;
+}
+
+.booking-select-wrap .form-select { padding-right: 28px; }
+.booking-input-wrap input[type="datetime-local"] { color: #655950; }
+
+.booking-amount-input .form-control {
+  min-height: 36px;
+  padding: 6px 9px;
+  font-size: 9px;
+}
+
+.booking-amount-input .input-group-text {
+  border-color: var(--color-border);
+  background: #fdfcfb;
+  color: #8b7e75;
+  font-size: 9px;
+}
+
+.booking-field-hint { display: block; margin-top: 4px; color: var(--color-muted); font-size: 8px; line-height: 1.35; }
+
+.booking-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 15px -19px 0;
+  padding: 10px 19px;
+  border-top: 1px solid #f0ebe7;
+}
+
+.booking-form-footer > span { color: var(--color-muted); font-size: 8px; }
+.booking-form-footer > span i { margin-right: 4px; color: var(--color-primary); font-size: 7px; }
+.booking-form-actions { display: flex; align-items: center; gap: 7px; }
+
+@media (max-width: 575.98px) {
+  .booking-form-heading { align-items: flex-start; }
+  .booking-form-heading h1 { font-size: 20px; }
+  .booking-form-badge { padding: 7px; font-size: 0; }
+  .booking-form-badge i { font-size: 11px; }
+  .booking-form-card { padding: 14px 12px 0; }
+  .booking-form-footer { align-items: flex-start; flex-direction: column; margin-right: -12px; margin-left: -12px; padding: 10px 12px; }
+  .booking-form-actions { width: 100%; justify-content: flex-end; }
+}

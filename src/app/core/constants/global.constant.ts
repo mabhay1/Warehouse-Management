@@ -27,6 +27,13 @@ export const GLOBAL_CONSTANT={
             ADD_EMPLOYEE:'AddEmployee',
             UPDATE_EMPLOYEE:'UpdateEmployee/',
             DELETE_EMPLOYEE:'DeleteEmployee/' 
+        },
+        BOOKING:{
+            GET_ALL_BOOKING:'GetAllBookings',
+            GET_BOOKING_BY_ID:'GetBookingById/',
+            ADD_BOOKING:'AddBooking',
+            UPDATE_BOOKING:'UpdateBooking/',
+            DELETE_BOOKING:'DeleteBooking/'  
         }
     },
     ROLES:{
