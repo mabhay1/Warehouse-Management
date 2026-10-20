@@ -43,7 +43,7 @@
             <th scope="col">WAREHOUSE</th>
             <th scope="col">SPACE</th>
             <th scope="col">BOOKING PERIOD</th>
-            <th scope="col">AREA</th>
+            <!-- <th scope="col">AREA</th> -->
             <th scope="col">TOTAL</th>
             <th scope="col">BOOKED ON / BY</th>
             <th scope="col">ACTIONS</th>
@@ -74,7 +74,7 @@
                 <small><i class="fa-regular fa-clock" aria-hidden="true"></i> {{booking.bookingFromDate|date:'hh:mm a'}} — {{booking.bookingTillDate|date:'hh:mm a'}}</small>
               </span>
             </td>
-            <td><strong class="booking-area-value">{{booking.sqftAreaNeeded}}</strong><small class="booking-area-unit">sq ft</small></td>
+            <!-- <td><strong class="booking-area-value">{{booking.sqftAreaNeeded}}</strong><small class="booking-area-unit">sq ft</small></td> -->
             <td><strong class="booking-amount-value">₹{{booking.totalAmount|number:'1.2-2'}}</strong></td>
             <td>
               <span class="booking-created-cell">
