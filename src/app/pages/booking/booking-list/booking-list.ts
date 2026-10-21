@@ -4,10 +4,12 @@ import { IBookingList } from '../../../core/models/interfaces/booking.model';
 import { BookingService } from '../../../core/services/booking/booking-service';
 import { API_Response } from '../../../core/models/interfaces/common.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { DatePipe, DecimalPipe, NgFor } from '@angular/common';
+import { DatePipe, DecimalPipe, NgFor, UpperCasePipe } from '@angular/common';
+import { MyModelPopup } from '../../../shared/reusableComponents/my-model-popup/my-model-popup';
+import { Payment } from '../payment/payment';
 
 @Component({
-  imports: [NgFor, DatePipe, DecimalPipe],
+  imports: [NgFor, DatePipe, DecimalPipe, MyModelPopup, Payment, UpperCasePipe],
   selector: 'app-booking-list',
   styleUrl: './booking-list.css',
   templateUrl: './booking-list.html',
@@ -18,6 +20,10 @@ export class BookingList implements OnInit {
   bookingSrv=inject(BookingService)
 
   bookingList:WritableSignal<IBookingList[]>=signal<IBookingList[]>([])
+
+  isOpenModel:boolean=false
+
+  selectedBooking!:IBookingList
 
   ngOnInit(): void {
     this.getAllBookingList()
@@ -53,6 +59,11 @@ export class BookingList implements OnInit {
         alert(err.message)
       }
     })
+  }
+
+  openModel(obj:IBookingList){
+    this.isOpenModel=true
+    this.selectedBooking=obj
   }
 
 }

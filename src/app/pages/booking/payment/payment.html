@@ -1,0 +1,131 @@
+<div class="booking-payment-content">
+    <section class="booking-payment-history" aria-labelledby="booking-payment-history-title">
+        <div class="booking-payment-section-heading">
+            <div>
+                <h3 id="booking-payment-history-title">Payment history</h3>
+                <p>Payments recorded against this booking.</p>
+            </div>
+            <span class="booking-payment-count">{{paymentList().length}} records</span>
+        </div>
+        <div class="table-responsive">
+            <table class="table booking-payment-table align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">PAYMENT DATE</th>
+                        <th scope="col">AMOUNT</th>
+                        <th scope="col">MODE</th>
+                        <th scope="col">RECEIVED BY</th>
+                        <th scope="col">STATUS</th>
+                        <th scope="col">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(paymentList().length===0){
+                        <tr>
+                            <td colspan="6" class="text-center"><h3>No Payments Added</h3></td>
+                        </tr>
+                    }
+                    @else {
+                        @for (item of paymentList(); track $index) {
+                        <tr>
+                            <td><strong>{{item.paymentDate|date:'dd MMM yyyy'}}</strong></td>
+                            <td><strong class="booking-payment-amount">₹{{item.amount|number:'1.2-2'}}</strong></td>
+                            <td>{{item.mode}}</td>
+                            <td>{{item.receivedByName}}</td>
+                            <td>
+                                <span class="booking-payment-status" [class.payment-received]="item.status==='Received'"
+                                    [class.payment-pending]="item.status==='Pending'">{{item.status}}</span>
+                            </td>
+                            <td>
+                                <div class="record-action-group booking-payment-row-actions">
+                                    <button class="btn btn-record-action btn-record-edit" type="button" (click)="onEdit(item)">
+                                        <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span>
+                                    </button>
+                                    <button class="btn btn-record-action btn-record-delete" type="button" (click)="onDelete(item.id)">
+                                        <i class="fa-regular fa-trash-can" aria-hidden="true"></i><span>Delete</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!-- <div class="booking-payment-total">
+            <span>Total recorded</span>
+            <strong>₹61,000</strong>
+        </div> -->
+    </section>
+
+    <section class="booking-payment-form-panel" aria-labelledby="booking-payment-form-title">
+        <div class="booking-payment-section-heading">
+            <div>
+                <h3 id="booking-payment-form-title">Record a payment</h3>
+                <p>Add payment details for this booking.</p>
+            </div>
+            <span class="booking-payment-form-icon">
+                <i class="fa-solid fa-receipt" aria-hidden="true"></i>
+            </span>
+        </div>
+        <form class="booking-payment-form">
+            <div class="row g-2">
+                <div class="col-6">
+                    <label class="form-label" for="payment-date">Payment date</label>
+                    <input class="form-control" id="payment-date" type="date" [formField]="paymentForm.paymentDate">
+                    <ng-component *ngTemplateOutlet="validationErrorTem; context:{control:paymentForm.paymentDate()}"></ng-component>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="payment-amount">Amount</label>
+                    <div class="input-group">
+                        <span class="input-group-text">₹</span>
+                        <input class="form-control" id="payment-amount" type="number" placeholder="0.00" [formField]="paymentForm.amount">
+                    </div>
+                    <ng-component *ngTemplateOutlet="validationErrorTem; context:{control:paymentForm.amount()}"></ng-component>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="payment-mode">Payment mode</label>
+                    <select class="form-select" id="payment-mode" [formField]="paymentForm.mode">
+                        <option value="" disabled>Select mode</option>
+                        <option>Bank transfer</option>
+                        <option>UPI</option>
+                        <option>Cash</option>
+                        <option>Card</option>
+                    </select>
+                    <ng-component *ngTemplateOutlet="validationErrorTem; context:{control:paymentForm.mode()}"></ng-component>
+                </div>
+                <div class="col-6">
+                    <label class="form-label" for="payment-status">Status</label>
+                    <select class="form-select" id="payment-status" [formField]="paymentForm.status">
+                        <option value="" disabled>Select status</option>
+                        <option>Received</option>
+                        <option>Pending</option>
+                        <option>Failed</option>
+                    </select>
+                    <ng-component *ngTemplateOutlet="validationErrorTem; context:{control:paymentForm.status()}"></ng-component>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" for="payment-narration">Narration</label>
+                    <textarea [formField]="paymentForm.narration" class="form-control" id="payment-narration" rows="3"
+                        placeholder="Add a note about this payment"></textarea>
+                    <ng-component *ngTemplateOutlet="validationErrorTem; context:{control:paymentForm.narration()}"></ng-component>    
+                </div>
+            </div>
+            <div class="booking-payment-form-actions">
+                <app-my-button [btnText]="'Reset'" [btnType]="'Cancel'" (onBtnClick)="onReset()"></app-my-button>
+                @if(currentPaymentId===0){
+                    <app-my-button [btnText]="'payment'" [btnType]="'Save'" (onBtnClick)="onSavePayment()" [isLoading]="isLoading()"></app-my-button>
+                }
+                @else{
+                    <app-my-button [btnText]="'payment'" [btnType]="'Update'" (onBtnClick)="onUpdatePayment()" [isLoading]="isLoading()"></app-my-button>
+                }
+            </div>
+        </form>
+    </section>
+</div>
+
+<ng-template #validationErrorTem let-control="control">
+    @if(control.touched() || control.dirty() || isSubmitted){
+        <p class="text-danger">{{control.errors()|getValidationError}}</p>
+    }
+</ng-template>

@@ -33,7 +33,13 @@ export const GLOBAL_CONSTANT={
             GET_BOOKING_BY_ID:'GetBookingById/',
             ADD_BOOKING:'AddBooking',
             UPDATE_BOOKING:'UpdateBooking/',
-            DELETE_BOOKING:'DeleteBooking/'  
+            DELETE_BOOKING:'DeleteBooking/',
+            PAYMENT:{
+                GET_PAYMENTS_BY_BOOKING_ID:'GetAllPayments?bookingId=',
+                ADD_PAYMENT:'AddPayment',
+                UPDATE_PAYMENT:'UpdatePayment/',
+                DELETE_PAYMENT:'DeletePayment/'
+            }  
         }
     },
     ROLES:{

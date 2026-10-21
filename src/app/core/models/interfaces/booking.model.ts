@@ -20,3 +20,31 @@ export interface IBookingList extends IBookingModel {
     bookingDate: string,
     bookingDoneByName: string
 }
+
+export interface IPaymentList {
+  id: number
+  bookingId: number
+  bookingDate: string
+  bookingFromDate: string
+  bookingTillDate: string
+  bookingTotalAmount: number
+  customerId: number
+  customerName: string
+  customerMobile: string
+  customerEmail: string
+  warehouseId: number
+  warehouseName: string
+  warehouseCity: string
+  spaceId: number
+  spaceName: string
+  bookingDoneBy: number
+  bookingDoneByName: string
+  paymentDate: string
+  amount: number
+  mode: string
+  narration: string
+  status: string
+  receivedId: number
+  receivedByName: string
+  receivedByMobile: string
+}

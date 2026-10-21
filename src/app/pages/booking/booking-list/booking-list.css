@@ -150,6 +150,8 @@
 .booking-amount-value { color: var(--color-primary); font-size: 10px; font-weight: 700; white-space: nowrap; }
 .booking-row-actions { gap: 4px; }
 .booking-row-actions a { text-decoration: none; }
+.booking-row-actions .booking-payment-trigger { border-color: #e8d7c8; background: #fdf8f3; color: var(--color-primary); }
+.booking-row-actions .booking-payment-trigger:hover { border-color: var(--color-primary); background: #f7eee8; }
 
 .booking-list-footer {
   display: flex;
@@ -165,6 +167,11 @@
 .booking-list-footer strong { color: #5f544d; font-weight: 600; }
 .booking-list-footer > span:last-child i { margin-right: 4px; color: var(--color-primary); }
 
+.payment-header-title > div { min-width: 0; }
+.booking-payment-eyebrow { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 4px; color: var(--color-primary); font-size: 8px; font-weight: 700; letter-spacing: .6px; }
+.payment-header-title h2 { margin: 0 0 3px; color: var(--color-text); font-size: 17px; font-weight: 650; }
+.payment-header-title p { margin: 0; color: var(--color-muted); font-size: 10px; }
+
 @media (max-width: 575.98px) {
   .booking-list-heading { align-items: flex-start; flex-direction: column; }
   .booking-list-heading h1 { font-size: 20px; }
@@ -173,4 +180,6 @@
   .booking-list-toolbar { align-items: flex-start; flex-direction: column; padding: 10px 12px; }
   .booking-list-search { width: 100%; }
   .booking-list-footer { align-items: flex-start; flex-direction: column; }
+  .payment-header-title { padding: 12px; }
+  .payment-header-title h2 { font-size: 15px; }
 }

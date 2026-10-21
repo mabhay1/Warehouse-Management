@@ -1,0 +1,16 @@
+<section class="my-modal" [ngStyle]="{ display:openModel?'flex':'none'}">
+    <a class="my-modal-backdrop"></a>
+    <div class="my-modal-dialog" role="dialog" aria-modal="true">
+        <header class="my-modal-header">
+
+            <ng-content select="[modal-header]"></ng-content>
+
+            <a class="my-modal-close" (click)="closeModel()">
+                <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+            </a>
+        </header>
+
+        <ng-content select="[modal-content]"></ng-content>
+
+    </div>
+</section>

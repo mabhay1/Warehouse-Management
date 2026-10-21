@@ -85,6 +85,10 @@
             </td>
             <td>
               <div class="record-action-group booking-row-actions">
+                <a class="btn btn-record-action booking-payment-trigger" (click)="openModel(booking)"
+                  aria-label="View payments for this booking">
+                  <i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i><span>Payments</span>
+                </a>
                 <button class="btn btn-record-action btn-record-edit" (click)="openBookingForm(booking.id)"
                   aria-label="Edit booking for customer1">
                   <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i><span>Edit</span>
@@ -105,4 +109,18 @@
       <span><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Dates and amounts are shown in local format.</span>
     </footer>
   </section>
+
+  <app-my-model-popup [openModel]="isOpenModel" (modalClosed)="isOpenModel=false">
+    <!--Modal Header-->
+    <div modal-header class="payment-header-title">
+      <span class="booking-payment-eyebrow">
+        <i class="fa-solid fa-warehouse" aria-hidden="true"></i>
+        {{selectedBooking?.warehouseName|uppercase}} <span aria-hidden="true">·</span> {{selectedBooking?.warehouseCity|uppercase}}
+      </span>
+      <h2 id="booking-payment-title">{{selectedBooking?.customerName|uppercase}} <span aria-hidden="true">·</span> Booking payments</h2>
+      <p>{{selectedBooking?.spaceName|uppercase}}</p>
+    </div>
+    <!--Modal Body-->
+    <app-payment modal-content [bookingId]="selectedBooking?.id" [isOpen]="isOpenModel"></app-payment>
+  </app-my-model-popup>
 </section>
