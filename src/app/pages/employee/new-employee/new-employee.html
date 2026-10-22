@@ -110,8 +110,8 @@
       <span><i class="fa-solid fa-asterisk" aria-hidden="true"></i> Required fields</span>
       <div class="employee-form-actions">
         <app-my-button [btnType]="'Cancel'" (onBtnClick)="onReset()"></app-my-button>
-        <app-my-button *ngIf="editEmployee===0" (onBtnClick)="onSaveEmployee()" [btnType]="'Save'" [btnText]="saveUpdateBtnText" [isLoading]="loading()"></app-my-button>
-        <app-my-button *ngIf="editEmployee!==0" (onBtnClick)="onUpdateEmployee()" [btnText]="saveUpdateBtnText" [btnType]="'Update'" [isLoading]="loading()"></app-my-button>
+        <app-my-button *ngIf="editEmployee===0" (onBtnClick)="onSaveEmployee()" [btnType]="'Save'" [btnText]="saveUpdateBtnText"></app-my-button>
+        <app-my-button *ngIf="editEmployee!==0" (onBtnClick)="onUpdateEmployee()" [btnText]="saveUpdateBtnText" [btnType]="'Update'"></app-my-button>
       </div>
     </div>
   </form>

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnDestroy, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 import { IEmployeeList } from '../../../core/models/interfaces/employee.model';
@@ -15,6 +15,8 @@ import { GetValidationErrorPipe } from '../../../shared/pipes/get-validation-err
 import { ActivatedRoute, Router, ɵEmptyOutletComponent } from '@angular/router';
 import { IBookingList, IBookingModel } from '../../../core/models/interfaces/booking.model';
 import { BookingService } from '../../../core/services/booking/booking-service';
+import { getLoggedEmployeeData } from '../../../core/helper/common.helper';
+import { CommonService } from '../../../core/services/common/common-service';
 
 @Component({
   imports: [ReactiveFormsModule, AsyncPipe, MyButton, GetValidationErrorPipe, ɵEmptyOutletComponent, NgTemplateOutlet],
@@ -22,13 +24,14 @@ import { BookingService } from '../../../core/services/booking/booking-service';
   styleUrl: './booking-form.css',
   templateUrl: './booking-form.html',
 })
-export class BookingForm {
+export class BookingForm implements OnDestroy {
 
   customerSrv=inject(CustomerService)
   warehouseSrv=inject(WarehouseService)
   bookingSrv=inject(BookingService)
   router=inject(Router)
   activatedRoute=inject(ActivatedRoute)
+  commonSrv=inject(CommonService)
 
   customerList$:Observable<ICustomerList[]>=new Observable<ICustomerList[]>()
   warehouseList$:Observable<IWarehouseList[]> =new Observable<IWarehouseList[]>
@@ -40,7 +43,6 @@ export class BookingForm {
   currentBookingId:number=0
 
   isSubmitted:boolean=false
-  loading=signal<boolean>(false)
 
   constructor(private fb:FormBuilder){
 
@@ -89,15 +91,14 @@ export class BookingForm {
       bookingDoneBy: [0]
     })
     this.bookingForm.get('spaceId')?.disable()
-    const localData=localStorage.getItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY)
-    if(localData!=null){
-      const loginData=JSON.parse(localData) as IEmployeeList
-      this.bookingForm.controls['bookingDoneBy'].setValue(loginData.id)
+    const localData=getLoggedEmployeeData()
+    if(localData!=undefined){
+      this.bookingForm.controls['bookingDoneBy'].setValue(localData.id)
     }
   }
 
   getBookingById(){
-    this.bookingSrv.getBookingById(this.currentBookingId).subscribe({
+    const subs=this.bookingSrv.getBookingById(this.currentBookingId).subscribe({
       next:(res:API_Response<IBookingList>)=>{
         this.bookingForm.patchValue(res.data)
       },
@@ -105,11 +106,12 @@ export class BookingForm {
 
       }
     })
+    this.commonSrv.subscriptionArray.push(subs)
   }
 
   getSpacesByWarehouseId(){
     const warehouseId=this.bookingForm.controls['warehouseId'].value
-    this.warehouseSrv.getSpaceByWarehouseId(warehouseId).subscribe({
+    const subs=this.warehouseSrv.getSpaceByWarehouseId(warehouseId).subscribe({
       next:(res:API_Response<IWarehouseSpaceList[]>)=>{
         this.warehouseSpaceList.set(res.data)
       },
@@ -117,6 +119,7 @@ export class BookingForm {
 
       }
     })
+    this.commonSrv.subscriptionArray.push(subs)
   }
 
   onReset(){
@@ -127,10 +130,10 @@ export class BookingForm {
     this.isSubmitted=true
     const formValue = this.bookingForm.value as IBookingModel
     if(this.bookingForm.valid){
-      this.loading.set(true)
-      this.bookingSrv.addBooking(formValue).pipe(
+      this.commonSrv.showLoader$.next(true)
+      const subs=this.bookingSrv.addBooking(formValue).pipe(
         finalize(()=>{
-          this.loading.set(false)
+          this.commonSrv.showLoader$.next(false)
         })
       ).subscribe({
         next:(res:API_Response<IBookingList>)=>{
@@ -146,6 +149,7 @@ export class BookingForm {
           alert(err.message)
         }
       })
+      this.commonSrv.subscriptionArray.push(subs)
     }
   }
 
@@ -153,10 +157,10 @@ export class BookingForm {
     this.isSubmitted=true
     const formValue = this.bookingForm.value as IBookingModel
     if(this.bookingForm.valid){
-      this.loading.set(true)
-      this.bookingSrv.updateBooking(formValue,this.currentBookingId).pipe(
+      this.commonSrv.showLoader$.next(true)
+      const subs=this.bookingSrv.updateBooking(formValue,this.currentBookingId).pipe(
         finalize(()=>{
-          this.loading.set(false)
+          this.commonSrv.showLoader$.next(false)
         })
       ).subscribe({
         next:(res:API_Response<IBookingList>)=>{
@@ -172,6 +176,11 @@ export class BookingForm {
           alert(err.message)
         }
       })
+      this.commonSrv.subscriptionArray.push(subs)
     }
+  }
+
+  ngOnDestroy(): void {
+    this.commonSrv.unsubscribeSubscriptions()
   }
 }

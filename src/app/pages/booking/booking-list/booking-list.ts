@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { IBookingList } from '../../../core/models/interfaces/booking.model';
 import { BookingService } from '../../../core/services/booking/booking-service';
@@ -7,6 +7,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe, DecimalPipe, NgFor, UpperCasePipe } from '@angular/common';
 import { MyModelPopup } from '../../../shared/reusableComponents/my-model-popup/my-model-popup';
 import { Payment } from '../payment/payment';
+import { Subscription } from 'rxjs';
+import { CommonService } from '../../../core/services/common/common-service';
 
 @Component({
   imports: [NgFor, DatePipe, DecimalPipe, MyModelPopup, Payment, UpperCasePipe],
@@ -14,10 +16,11 @@ import { Payment } from '../payment/payment';
   styleUrl: './booking-list.css',
   templateUrl: './booking-list.html',
 })
-export class BookingList implements OnInit {
+export class BookingList implements OnInit,OnDestroy {
 
   router=inject(Router)
   bookingSrv=inject(BookingService)
+  commonSrv=inject(CommonService)
 
   bookingList:WritableSignal<IBookingList[]>=signal<IBookingList[]>([])
 
@@ -34,7 +37,7 @@ export class BookingList implements OnInit {
   }
 
   getAllBookingList(){
-    this.bookingSrv.getAllBookings().subscribe({
+    const subs=this.bookingSrv.getAllBookings().subscribe({
       next:(res:API_Response<IBookingList[]>)=>{
         this.bookingList.set(res.data)
       },
@@ -42,10 +45,11 @@ export class BookingList implements OnInit {
 
       }
     })
+    this.commonSrv.subscriptionArray.push(subs)
   }
 
   onDeleteBooking(id:number){
-    this.bookingSrv.deleteBooking(id)?.subscribe({
+    const subs=this.bookingSrv.deleteBooking(id)?.subscribe({
       next:(res:API_Response<any>)=>{
         if(res.result){
           alert("Booking Deleted Success")
@@ -59,11 +63,18 @@ export class BookingList implements OnInit {
         alert(err.message)
       }
     })
+    if(subs!=null){
+      this.commonSrv.subscriptionArray.push(subs)
+    }
   }
 
   openModel(obj:IBookingList){
     this.isOpenModel=true
     this.selectedBooking=obj
+  }
+
+  ngOnDestroy(): void {
+    this.commonSrv.unsubscribeSubscriptions()
   }
 
 }

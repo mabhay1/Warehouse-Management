@@ -11,6 +11,7 @@ import { IEmployeeList } from '../../../core/models/interfaces/employee.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { COMMON_IMPORTS } from '../../../core/constants/commonImports.constant';
+import { CommonService } from '../../../core/services/common/common-service';
 
 @Component({
   imports: [COMMON_IMPORTS.FORMS],
@@ -57,13 +58,12 @@ export class NewEmployee {
   employeeSrv=inject(EmployeeService)
   router=inject(Router)
   activatedRoute=inject(ActivatedRoute)
+  commonSrv=inject(CommonService)
   destroyRef=inject(DestroyRef)
 
   editEmployee:number=0
   isSubmitted:boolean=false
   saveUpdateBtnText:string=GLOBAL_CONSTANT.BUTTON_TEXT.EMPLOYEE
-
-  loading=signal<boolean>(false)
 
   RoleList:string[]=Object.values(GLOBAL_CONSTANT.ROLES)
 
@@ -106,10 +106,10 @@ export class NewEmployee {
     this.isSubmitted=true
     const formValue=this.employeeForm().value()
     if(this.employeeForm().valid()){
-      this.loading.set(true)
+      this.commonSrv.showLoader$.next(true)
       this.employeeSrv.addEmployee(formValue).pipe(
         finalize(()=>{
-          this.loading.set(false)
+          this.commonSrv.showLoader$.next(false)
         }),
         takeUntilDestroyed(this.destroyRef)
       ).subscribe({
@@ -132,10 +132,10 @@ export class NewEmployee {
     }
 
     if(this.employeeForm().valid()){
-      this.loading.set(true)
+      this.commonSrv.showLoader$.next(true)
       this.employeeSrv.updateEmployee(updatePayload,this.editEmployee).pipe(
         finalize(()=>{
-          this.loading.set(false)
+          this.commonSrv.showLoader$.next(false)
         }),
         takeUntilDestroyed(this.destroyRef)
       ).subscribe({

@@ -24,7 +24,7 @@
             <article class="warehouse-stat-card">
                 <span class="warehouse-stat-icon area-stat-icon"><i class="fa-solid fa-ruler-combined"
                         aria-hidden="true"></i></span>
-                <span class="warehouse-stat-copy"><small>Combined area</small><strong>{{totalSQft|number:'1.0-0'}} <em>sq
+                <span class="warehouse-stat-copy"><small>Combined area</small><strong>{{totalSqftComputed()|number:'1.0-0'}} <em>sq
                             ft</em></strong><span class="stat-caption">Total registered capacity</span></span>
             </article>
         </div>
@@ -32,7 +32,7 @@
             <article class="warehouse-stat-card">
                 <span class="warehouse-stat-icon cold-stat-icon"><i class="fa-solid fa-snowflake"
                         aria-hidden="true"></i></span>
-                <span class="warehouse-stat-copy"><small>Cold storage sites</small><strong>{{coldStorageSites}}</strong><span
+                <span class="warehouse-stat-copy"><small>Cold storage sites</small><strong>{{coldStorageSiteComputed()}}</strong><span
                         class="stat-caption">Temperature-controlled</span></span>
             </article>
         </div>
@@ -204,18 +204,12 @@
 
                     <div class="warehouse-form-actions">
                         <button class="btn btn-theme-secondary btn-form-action" (click)="onReset()" type="button">Reset</button>
-                        <button [disabled]="loading()" *ngIf="editWarehouseId===undefined else updateButton" class="btn btn-save btn-form-action" type="submit">
+                        <button *ngIf="editWarehouseId===undefined else updateButton" class="btn btn-save btn-form-action" type="submit">
                             <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save warehouse
-                            @if(loading()){
-                                <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-                            }
                         </button>
                         <ng-template #updateButton>
-                            <button [disabled]="loading()" class="btn btn-update btn-form-action" type="submit">
+                            <button class="btn btn-update btn-form-action" type="submit">
                                 <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Update
-                                @if(loading()){
-                                    <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
-                                }
                             </button>
                         </ng-template>
                     </div>

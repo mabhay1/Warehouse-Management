@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 import { GetValidationErrorPipe } from '../../../shared/pipes/get-validation-error-pipe';
 import { finalize, Subscription } from 'rxjs';
+import { CommonService } from '../../../core/services/common/common-service';
 
 @Component({
   imports: [ReactiveFormsModule, GetValidationErrorPipe],
@@ -22,6 +23,7 @@ export class CustomerForm implements OnDestroy {
   customerService=inject(CustomerService)
   router=inject(Router)
   activatedRoute=inject(ActivatedRoute)
+  commonSrv=inject(CommonService)
   
   editCustomerId:number=0
   isSubmitted:boolean=false
@@ -70,10 +72,10 @@ export class CustomerForm implements OnDestroy {
     this.isSubmitted=true
     const formData=this.customerForm.value as ICustomerModel
     if(this.customerForm.valid){
-      this.loading.set(true)
+      this.commonSrv.showLoader$.next(true)
       const subs=this.customerService.addCustomer(formData).pipe(
         finalize(()=>{
-          this.loading.set(false)
+          this.commonSrv.showLoader$.next(false)
         })
       ).subscribe({
         next:(res:API_Response<ICustomerList>)=>{
@@ -94,10 +96,12 @@ export class CustomerForm implements OnDestroy {
     this.isSubmitted=true
     const formData=this.customerForm.value as ICustomerModel
     if(this.customerForm.valid){
-      this.loading.set(true)
+      // this.loading.set(true)
+      this.commonSrv.showLoader$.next(true)
       const subs=this.customerService.updateCustomer(formData,this.editCustomerId).pipe(
         finalize(()=>{
-          this.loading.set(false)
+          // this.loading.set(false)
+          this.commonSrv.showLoader$.next(false)
         })
       ).subscribe({
         next:(res:API_Response<ICustomerList>)=>{

@@ -15,11 +15,11 @@
             </a>
             <a class="sidebar-link" routerLink="/admin/warehouse-list" routerLinkActive="active">
                 <i class="fa-solid fa-warehouse" aria-hidden="true"></i><span>Spaces</span>
-                <span class="nav-count">12</span>
+                <!-- <span class="nav-count">12</span> -->
             </a>
             <a class="sidebar-link" routerLink="/admin/booking-list" routerLinkActive="active">
                 <i class="fa-regular fa-calendar-check" aria-hidden="true"></i><span>Bookings</span>
-                <span class="nav-badge">4</span>
+                <!-- <span class="nav-badge">4</span> -->
             </a>
             <a class="sidebar-link" routerLink="/admin/customer-list" routerLinkActive="active">
                 <i class="fa-solid fa-users" aria-hidden="true"></i><span>Customers</span>
@@ -85,3 +85,11 @@
         </div>
     </main>
 </div>
+@if (isLoading()) {
+    <div class="screen-loader" role="status" aria-live="polite">
+        <div class="screen-loader-card">
+            <img class="screen-loader-image" src="/loading.gif" alt="">
+            <span>Loading your workspace</span>
+        </div>
+    </div>
+}

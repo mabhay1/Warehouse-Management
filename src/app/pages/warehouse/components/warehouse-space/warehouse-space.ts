@@ -1,4 +1,4 @@
-import { Component, effect, inject, Input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, DestroyRef, effect, inject, Input, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
 import { IWarehouseList, IWarehouseSpaceList } from '../../../../core/models/interfaces/warehouse.model';
 import { DecimalPipe, NgIf } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -8,6 +8,7 @@ import { WarehouseService } from '../../../../core/services/warehouse/warehouse-
 import { API_Response } from '../../../../core/models/interfaces/common.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MyButton } from '../../../../shared/reusableComponents/my-button/my-button';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [FormsModule,NgIf,DecimalPipe,GetValidationErrorPipe, MyButton],
@@ -19,6 +20,7 @@ export class WarehouseSpace implements OnInit,OnChanges {
   @Input() selectedWarehouse:IWarehouseList|undefined
 
   warehouseService=inject(WarehouseService)
+  destRef=inject(DestroyRef)
 
   warehouseSpaceForm:WarehouseSpaceModel=new WarehouseSpaceModel()
 
@@ -57,7 +59,9 @@ export class WarehouseSpace implements OnInit,OnChanges {
   }
 
   getSpacesByWarehouseId(){
-    this.warehouseService.getSpaceByWarehouseId(this.selectedWarehouse?.id||0).subscribe({
+    this.warehouseService.getSpaceByWarehouseId(this.selectedWarehouse?.id||0).pipe(
+      takeUntilDestroyed(this.destRef)
+    ).subscribe({
       next:(res:API_Response<IWarehouseSpaceList[]>)=>{
         this.warehouseSpaceList.set(res.data)
       },
@@ -73,7 +77,9 @@ export class WarehouseSpace implements OnInit,OnChanges {
   }
 
   onDeleteSpace(id:number){
-    this.warehouseService.deleteSpace(id)?.subscribe({
+    this.warehouseService.deleteSpace(id)?.pipe(
+      takeUntilDestroyed(this.destRef)
+    ).subscribe({
       next:(res:API_Response<any>)=>{
         if(res.result){
           alert('Space Removed successfully')
@@ -97,7 +103,9 @@ export class WarehouseSpace implements OnInit,OnChanges {
   }
 
   onSaveSpace(form:NgForm){
-    this.warehouseService.addSpace(this.warehouseSpaceForm).subscribe({
+    this.warehouseService.addSpace(this.warehouseSpaceForm).pipe(
+      takeUntilDestroyed(this.destRef)
+    ).subscribe({
       next:(res:API_Response<IWarehouseSpaceList>)=>{
         if(res.result){
           alert('Space added successfully')
@@ -114,7 +122,9 @@ export class WarehouseSpace implements OnInit,OnChanges {
     })
   }
   onUpdateSpace(form:NgForm){
-    this.warehouseService.updateSpace(this.warehouseSpaceForm,this.currentSpaceId).subscribe({
+    this.warehouseService.updateSpace(this.warehouseSpaceForm,this.currentSpaceId).pipe(
+      takeUntilDestroyed(this.destRef)
+    ).subscribe({
       next:(res:API_Response<IWarehouseSpaceList>)=>{
         if(res.result){
           alert('Space updated successfully')

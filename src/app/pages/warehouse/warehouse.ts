@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
+import { Component, computed, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { WarehouseService } from '../../core/services/warehouse/warehouse-service';
 import { API_Response } from '../../core/models/interfaces/common.model';
@@ -9,6 +9,7 @@ import { GLOBAL_CONSTANT } from '../../core/constants/global.constant';
 import { finalize, Subject, takeUntil } from 'rxjs';
 import { WarehouseSpace } from './components/warehouse-space/warehouse-space';
 import { COMMON_IMPORTS } from '../../core/constants/commonImports.constant';
+import { CommonService } from '../../core/services/common/common-service';
 
 @Component({
   imports: [ DecimalPipe, UpperCasePipe, WarehouseSpace,COMMON_IMPORTS.FORMS],
@@ -19,6 +20,7 @@ import { COMMON_IMPORTS } from '../../core/constants/commonImports.constant';
 export class Warehouse implements OnInit,OnDestroy {
 
   warehouseService=inject(WarehouseService)
+  commonSrv=inject(CommonService)
 
   warehouseList:WritableSignal<IWarehouseList[]>=signal<IWarehouseList[]>([])
 
@@ -26,8 +28,10 @@ export class Warehouse implements OnInit,OnDestroy {
   totalSQft:number=0
   coldStorageSites:number=0
 
+  totalSqftComputed=computed(()=>this.warehouseList().reduce((acc,current)=>acc+current.totalArea,0))
+  coldStorageSiteComputed=computed(()=>this.warehouseList().filter(x=>x.isColdStorageAvailable).length)
+
   isSubmitted:boolean=false
-  loading=signal<boolean>(false)
 
   warehouseForm!:FormGroup
 
@@ -86,7 +90,8 @@ export class Warehouse implements OnInit,OnDestroy {
         next:(res:API_Response<any>)=>{
           alert(res.message)
           if(res.result){
-            this.getAllWarehouses()
+            // this.getAllWarehouses()
+            this.warehouseList.update(oldValue=>oldValue.filter(x=>x.id!==id))
           }
         },
         error:(err:HttpErrorResponse)=>{
@@ -123,17 +128,18 @@ export class Warehouse implements OnInit,OnDestroy {
     this.isSubmitted = true
     const formValue = this.warehouseForm.value as IWarehouseModel
     if (this.warehouseForm.valid) {
-      this.loading.set(true)
+      this.commonSrv.showLoader$.next(true)
       this.warehouseService.addWarehouse(formValue).pipe(
         finalize(()=>{
-          this.loading.set(false)
+          this.commonSrv.showLoader$.next(false)
         }),
         takeUntil(this.takeUntilSubject$)
       ).subscribe({
         next: (res:API_Response<IWarehouseList>) => {
           alert(res.message)
           if (res.result) {
-            this.getAllWarehouses()
+            // this.getAllWarehouses()
+            this.warehouseList.update(oldvalue=>[res.data,...oldvalue])
             this.onReset()
           }
         },
@@ -147,17 +153,18 @@ export class Warehouse implements OnInit,OnDestroy {
     this.isSubmitted = true
     const formValue: IWarehouseModel = this.warehouseForm.value
     if (this.warehouseForm.valid) {
-      this.loading.set(true)
+      this.commonSrv.showLoader$.next(true)
       this.warehouseService.updateWarehouse(formValue, this.editWarehouseId).pipe(
         finalize(()=>{
-          this.loading.set(false)
+          this.commonSrv.showLoader$.next(false)
         }),
         takeUntil(this.takeUntilSubject$)
       ).subscribe({
         next: (res: API_Response<IWarehouseList>) => {
           alert(res.message)
           if (res.result) {
-            this.getAllWarehouses()
+            // this.getAllWarehouses()
+            this.warehouseList.update(oldValue=>oldValue.map(x=>x.id===this.editWarehouseId?res.data:x))
             this.onReset()
           }
         },

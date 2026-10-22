@@ -107,10 +107,10 @@
       <div class="booking-form-actions">
         <app-my-button [btnType]="'Cancel'" (onBtnClick)="onReset()"></app-my-button>
         @if(currentBookingId===0){
-          <app-my-button [btnType]="'Save'" [btnText]="'booking'" [isLoading]="loading()" (onBtnClick)="onSaveForm()"></app-my-button>
+          <app-my-button [btnType]="'Save'" [btnText]="'booking'" (onBtnClick)="onSaveForm()"></app-my-button>
         }
         @else {
-          <app-my-button [btnType]="'Update'" [btnText]="'booking'" [isLoading]="loading()" (onBtnClick)="onUpdateForm()"></app-my-button>
+          <app-my-button [btnType]="'Update'" [btnText]="'booking'" (onBtnClick)="onUpdateForm()"></app-my-button>
         }
       </div>
     </footer>

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges, OnInit, signal, SimpleChanges, WritableSignal } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnDestroy, OnInit, signal, SimpleChanges, WritableSignal } from '@angular/core';
 import { BookingService } from '../../../core/services/booking/booking-service';
 import { IPaymentList } from '../../../core/models/interfaces/booking.model';
 import { API_Response } from '../../../core/models/interfaces/common.model';
@@ -6,12 +6,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe, DecimalPipe, NgTemplateOutlet } from '@angular/common';
 import { PaymentModel } from '../../../core/models/classes/payment.model';
 import { form, FormField, required, schema } from '@angular/forms/signals';
-import { GLOBAL_CONSTANT } from '../../../core/constants/global.constant';
 import { IEmployeeList } from '../../../core/models/interfaces/employee.model';
 import { MyButton } from '../../../shared/reusableComponents/my-button/my-button';
 import { GetValidationErrorPipe } from '../../../shared/pipes/get-validation-error-pipe';
 import { ɵEmptyOutletComponent } from '@angular/router';
 import { finalize } from 'rxjs';
+import { getLoggedEmployeeData } from '../../../core/helper/common.helper';
+import { CommonService } from '../../../core/services/common/common-service';
 
 @Component({
   imports: [DatePipe, DecimalPipe, FormField, MyButton, GetValidationErrorPipe, ɵEmptyOutletComponent, NgTemplateOutlet],
@@ -19,12 +20,13 @@ import { finalize } from 'rxjs';
   styleUrl: './payment.css',
   templateUrl: './payment.html',
 })
-export class Payment implements OnChanges, OnInit{
+export class Payment implements OnChanges, OnInit, OnDestroy{
   @Input() bookingId:number=0
   @Input() isOpen:boolean=false
   paymentList=signal<IPaymentList[]>([])
 
   bookingSrv=inject(BookingService)
+  commonSrv=inject(CommonService)
 
   paymentObj:WritableSignal<PaymentModel>=signal<PaymentModel>(new PaymentModel())
 
@@ -43,9 +45,9 @@ export class Payment implements OnChanges, OnInit{
   isLoading=signal<boolean>(false)
 
   ngOnInit(): void {
-    const localData=localStorage.getItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY)
-    if(localData!==null){
-      this.loggedUser=JSON.parse(localData)
+    const localData=getLoggedEmployeeData()
+    if(localData!==undefined){
+      this.loggedUser=localData
     }
     this.paymentObj.update(x=>({
       ...x,
@@ -180,6 +182,10 @@ export class Payment implements OnChanges, OnInit{
         }
       })
     }
+  }
+
+  ngOnDestroy(): void {
+    this.commonSrv.takeUntilSubject$.next()
   }
 
 }
