@@ -125,7 +125,7 @@
 </div>
 
 <ng-template #validationErrorTem let-control="control">
-    @if(control.touched() || control.dirty() || isSubmitted){
+    @if(control.touched() || isSubmitted){
         <p class="text-danger">{{control.errors()|getValidationError}}</p>
     }
 </ng-template>
