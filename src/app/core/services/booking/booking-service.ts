@@ -2,7 +2,7 @@ import { inject, Service } from '@angular/core';
 import { ApiService } from '../apiService/api-service';
 import { environment } from '../../../../environments/environment.development';
 import { GLOBAL_CONSTANT } from '../../constants/global.constant';
-import { IBookingModel, IBookingList, IPaymentList } from '../../models/interfaces/booking.model';
+import { IBookingModel, IBookingList, IPaymentList, IBookingCalender } from '../../models/interfaces/booking.model';
 import { Observable, takeUntil } from 'rxjs';
 import { API_Response } from '../../models/interfaces/common.model';
 import { PaymentModel } from '../../models/classes/payment.model';
@@ -36,6 +36,11 @@ export class BookingService {
 
     getBookingById(id:number):Observable<API_Response<IBookingList>>{
         return this.apiSrv.get<IBookingList>(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.BOOKING.GET_BOOKING_BY_ID+id)
+    }
+
+    // Booking Calender Dashboard
+    getBookingCalender(warehouseId:number,fromDate:string,tillDate:string):Observable<API_Response<IBookingCalender>>{
+        return this.apiSrv.get<IBookingCalender>(this.apiUrl+GLOBAL_CONSTANT.API_METHODS.BOOKING.GET_BOOKING_CALENDER+warehouseId+`?fromDate=${fromDate}&tillDate=${tillDate}`)
     }
 
     // Payment Model

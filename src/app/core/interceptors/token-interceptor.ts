@@ -2,7 +2,6 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { GLOBAL_CONSTANT } from '../constants/global.constant';
 
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
-  debugger
   const url=req.url
   if(url.includes("Login")){
     return next(req);

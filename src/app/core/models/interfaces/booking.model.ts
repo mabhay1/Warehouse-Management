@@ -48,3 +48,35 @@ export interface IPaymentList {
   receivedByName: string
   receivedByMobile: string
 }
+
+export interface IBookingsDashboard{
+  bookingId: number,
+  customerId: number,
+  customerName: string,
+  spaceId: number,
+  bookingFromDate: string,
+  bookingTillDate: string,
+  visibleFromDate: string,
+  visibleTillDate: string,
+  sqftAreaNeeded: number
+}
+
+export interface ISpacesDasboard{
+  spaceId: number,
+  name: string,
+  areaSqft: number,
+  isActive: boolean,
+  bookings: IBookingsDashboard[]
+}
+
+export interface IBookingCalender {
+  warehouseId: number,
+  warehouseName: string,
+  city: string,
+  fromDate: string,
+  tillDate: string,
+  dates: string[],
+  bookingCount: number,
+  spaces: ISpacesDasboard[]
+  unassignedBookings: []
+}

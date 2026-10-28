@@ -34,6 +34,7 @@ export const GLOBAL_CONSTANT={
             ADD_BOOKING:'AddBooking',
             UPDATE_BOOKING:'UpdateBooking/',
             DELETE_BOOKING:'DeleteBooking/',
+            GET_BOOKING_CALENDER:"GetBookingCalendar/",
             PAYMENT:{
                 GET_PAYMENTS_BY_BOOKING_ID:'GetAllPayments?bookingId=',
                 ADD_PAYMENT:'AddPayment',

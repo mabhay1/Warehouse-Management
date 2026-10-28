@@ -9,6 +9,7 @@ import { EmployeeList } from './pages/employee/employee-list/employee-list';
 import { NewEmployee } from './pages/employee/new-employee/new-employee';
 import { BookingList } from './pages/booking/booking-list/booking-list';
 import { BookingForm } from './pages/booking/booking-form/booking-form';
+import { Dashboard } from './pages/dashboard/dashboard';
 
 export const routes: Routes = [
     {
@@ -25,6 +26,10 @@ export const routes: Routes = [
         component:Layout,
         canActivate:[authGuard],
         children:[
+            {
+                path:'dashboard',
+                component: Dashboard
+            },
             {
                 path:'customer-list',
                 component:CustomerList

@@ -42,7 +42,7 @@ export class Login implements OnDestroy{
           if(res.result){
             localStorage.setItem(GLOBAL_CONSTANT.LOCAL_LOGIN_TOKEN_KEY,res.data.token)
             localStorage.setItem(GLOBAL_CONSTANT.LOCAL_LOGIN_KEY,JSON.stringify(res.data.employee))
-            this.router.navigate(['admin/customer-list'])
+            this.router.navigate(['admin/dashboard'])
           }
           else{
             alert(res.message)

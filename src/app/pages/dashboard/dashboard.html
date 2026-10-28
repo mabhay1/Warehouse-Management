@@ -1,0 +1,204 @@
+<section class="dashboard-page" id="calendar-view">
+  <header class="dashboard-heading">
+    <div>
+      <nav class="dashboard-breadcrumb" aria-label="Breadcrumb">
+        <i class="fa-solid fa-house" aria-hidden="true"></i>
+        <span>/</span>
+        <strong>Dashboard</strong>
+      </nav>
+      <h1>Space booking calendar</h1>
+      <p>Check space availability and create a customer booking.</p>
+    </div>
+    <span class="dashboard-live-badge"><i class="fa-solid fa-circle" aria-hidden="true"></i> SPACE SCHEDULE</span>
+  </header>
+
+  <section class="dashboard-calendar-panel" aria-labelledby="calendar-title">
+    <div class="dashboard-calendar-toolbar">
+      <div class="dashboard-calendar-title">
+        <span class="dashboard-calendar-icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>
+        <div>
+          <h2 id="calendar-title">Warehouse availability</h2>
+          <p>Choose an available space and day to start a booking.</p>
+        </div>
+      </div>
+      <div class="dashboard-calendar-filters" [formGroup]="bookingCalenderSearchForm">
+        <label>
+          <span class="visually-hidden">Warehouse</span>
+          <i class="fa-solid fa-warehouse" aria-hidden="true"></i>
+          <select formControlName="warehouseId" class="form-select" aria-label="Select warehouse">
+            <option value="" selected disabled>Select a warehouse</option>
+            @for (item of warehouseListObs$|async; track $index) {
+                <option [value]="item.id">{{item.title}} · {{item.city}}</option>
+            }
+          </select>
+        </label>
+        <label>
+          <span class="visually-hidden">From date</span>
+          <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+          <input formControlName="fromDate" class="form-control" type="date" aria-label="From date">
+        </label>
+        <span class="dashboard-date-separator">to</span>
+        <label>
+          <span class="visually-hidden">Till date</span>
+          <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+          <input formControlName="tillDate" class="form-control" type="date" aria-label="Till date">
+        </label>
+        <button class="btn btn-save dashboard-apply-button" type="button" (click)="loadBookings()">Apply</button>
+      </div>
+    </div>
+
+    <section *ngIf="!showBookingCalender" class="dashboard-calendar-empty" aria-labelledby="calendar-empty-title">
+      <span class="dashboard-calendar-empty-icon"><i class="fa-regular fa-calendar-days" aria-hidden="true"></i></span>
+      <h3 id="calendar-empty-title">Choose a warehouse and date range</h3>
+      <p>Select a warehouse, start date, and end date, then apply filters to see space availability.</p>
+      <div class="dashboard-calendar-empty-steps" aria-label="Calendar filter steps">
+        <span><i class="fa-solid fa-warehouse" aria-hidden="true"></i> Warehouse</span>
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> Date range</span>
+        <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        <span><i class="fa-solid fa-filter" aria-hidden="true"></i> Apply</span>
+      </div>
+    </section>
+
+    <div *ngIf="showBookingCalender" class="dashboard-calendar-results">
+      <div class="dashboard-calendar-summary">
+        <span><i class="fa-solid fa-warehouse" aria-hidden="true"></i>{{bookingCalenderData().warehouseName}} - {{bookingCalenderData()?.city}}</span>
+        <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> {{bookingCalenderData().fromDate|date}} – {{bookingCalenderData().tillDate}}</span>
+        <span class="dashboard-calendar-legend">
+          <span><i class="legend-dot available-dot" aria-hidden="true"></i> Available</span>
+          <span><i class="legend-dot booked-dot" aria-hidden="true"></i> Booked</span>
+          <span><i class="legend-dot inactive-dot" aria-hidden="true"></i> De-active</span>
+        </span>
+      </div>
+
+      <div class="dashboard-calendar-scroll">
+        <table class="table dashboard-calendar-table mb-0">
+        <thead>
+          <tr>
+            <th class="dashboard-space-column" scope="col">
+              <span>WAREHOUSE SPACE</span>
+              <small>{{spacesList().length}} spaces</small>
+            </th>
+            @for (item of datesList(); track $index) {
+                <th scope="col">
+                    <span>{{item|date:'E'|uppercase}}</span><strong>{{item|date:'dd'}}</strong><small>{{item|date:'MMM'}}</small>
+                </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+            @for (item of spacesList(); track $index) {
+            <tr>
+                <th class="dashboard-space-column" scope="row">
+                    <span class="dashboard-space-identity">
+                        <i class="fa-solid fa-border-all" aria-hidden="true"></i>
+                        <span><strong>{{item.name}}</strong><small>{{item.areaSqft}} sq ft</small></span>
+                    </span>
+                </th>
+                @for (dates of datesList(); track $index) {
+                    @if(getAvailableBooking(item,dates)!==undefined){
+                        <td>
+                            <span class="calendar-booked">
+                                <i class="fa-solid fa-user" aria-hidden="true"></i> {{getAvailableBooking(item,dates)?.customerName}}
+                            </span>
+                        </td>
+                    }
+                    @else {
+                        @if(item.isActive){
+                            <td>
+                                <a class="calendar-available" (click)="openBookingForm(item,dates)">
+                                    <i class="fa-solid fa-plus" aria-hidden="true"></i>Available
+                                </a>
+                            </td>
+                        }
+                        @else {
+                            <td>
+                                <span class="calendar-inactive">
+                                    <i class="fa-solid fa-ban" aria-hidden="true"></i> De-active
+                                </span>
+                            </td>
+
+                        }
+                    }
+                }
+            </tr>
+            }
+        </tbody>
+        </table>
+      </div>
+
+      <footer class="dashboard-calendar-footer">
+        <span><i class="fa-regular fa-lightbulb" aria-hidden="true"></i> Select an available date in a space row to start a booking.</span>
+        <span>Showing {{spacesList().length}} warehouse spaces</span>
+      </footer>
+    </div>
+  </section>
+
+  <div class="modal dashboard-booking-modal" #newBooking tabindex="-1" role="dialog"
+    aria-modal="true" aria-labelledby="dashboard-booking-title">
+    <a class="dashboard-booking-backdrop" (click)="closeBookingForm()" aria-label="Close booking dialog"></a>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content dashboard-booking-content">
+        <div class="modal-header dashboard-booking-header">
+          <div>
+            <span class="dashboard-booking-eyebrow"><i class="fa-solid fa-warehouse" aria-hidden="true"></i> VIMAN NAGAR WAREHOUSE · PUNE</span>
+            <h2 class="modal-title" id="dashboard-booking-title">Book this space</h2>
+            <p>Enter customer and booking details for the selected slot.</p>
+          </div>
+          <a class="dashboard-booking-close" (click)="closeBookingForm()" aria-label="Close">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </a>
+        </div>
+        <div class="modal-body dashboard-booking-body">
+          <div class="dashboard-selected-slot">
+            <span class="dashboard-selected-slot-icon"><i class="fa-solid fa-border-all" aria-hidden="true"></i></span>
+            <span><small>Selected space and start date</small><strong>{{selectedSpace?.name}} · {{selectedSpace?.areaSqft}} sq ft</strong><em>{{selectedDate|date:'EEEE, dd MMM yyyy'}}</em></span>
+            <!-- <span class="dashboard-available-badge"><i class="fa-solid fa-circle" aria-hidden="true"></i> Available</span> -->
+          </div>
+
+          <form class="dashboard-booking-form" [formGroup]="bookingForm">
+            <div class="mb-3">
+              <label for="calendar-booking-customer" class="form-label">Customer <span class="dashboard-required">*</span></label>
+              <div class="dashboard-booking-select-wrap">
+                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                <select formControlName="customerId" class="form-select" id="calendar-booking-customer" name="customerId" required>
+                  <option value="" selected disabled>Select a customer</option>
+                  @for (customer of customersList(); track $index) {
+                    <option [value]="customer.id">{{customer.name}} · {{customer.mobile}}</option>
+                  }
+                </select>
+              </div>
+            </div>
+            <div class="row g-2">
+              <div class="col-12">
+                <label for="calendar-booking-till" class="form-label">Booking till <span class="dashboard-required">*</span></label>
+                <div class="dashboard-booking-input-wrap">
+                  <i class="fa-regular fa-calendar-check" aria-hidden="true"></i>
+                  <input formControlName="bookingTillDate" class="form-control" type="date">
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="calendar-booking-amount" class="form-label">Total amount <span class="dashboard-required">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text">₹</span>
+                  <input formControlName="totalAmount" class="form-control" type="number"
+                    placeholder="Enter total booking amount">
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-booking-note">
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+              <span>Booking starts on the selected calendar date.</span>
+            </div>
+            <div class="dashboard-booking-actions">
+              <button class="btn btn-theme-secondary btn-form-action">Cancel</button>
+              <button (click)="saveBooking()" class="btn btn-save btn-form-action" type="button">
+                <i class="fa-regular fa-floppy-disk" aria-hidden="true"></i> Save booking
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
