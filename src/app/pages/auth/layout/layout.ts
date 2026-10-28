@@ -5,6 +5,7 @@ import { GetInitialsPipe } from '../../../shared/pipes/get-initials-pipe';
 import { IEmployeeList } from '../../../core/models/interfaces/employee.model';
 import { CommonService } from '../../../core/services/common/common-service';
 import { getLoggedEmployeeData } from '../../../core/helper/common.helper';
+import { Subscription } from 'rxjs';
 
 @Component({
   imports: [RouterOutlet,RouterLink,RouterLinkActive, GetInitialsPipe],
@@ -19,12 +20,13 @@ export class Layout implements OnDestroy {
   commonSrv=inject(CommonService)
 
   isLoading=signal<boolean>(false)
+  subscription!:Subscription
   constructor(){
     const localData=getLoggedEmployeeData()
     if(localData){
       this.loggedUserData=localData
     }
-    this.commonSrv.showLoader$.subscribe({
+    this.subscription=this.commonSrv.showLoader$.subscribe({
       next:(flag:boolean)=>{
         this.isLoading.set(flag)
       }
@@ -37,6 +39,6 @@ export class Layout implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.commonSrv.showLoader$.unsubscribe()
+    this.subscription.unsubscribe()
   }
 }
